@@ -234,10 +234,10 @@ class Dashboard extends Component
                         'title' => ['display' => true, 'text' => 'Persentase (%)'],
                         'beginAtZero' => true,
                         // 'min' => 0,
-                        // 'max' => 100, // ✅ Tambahkan ini agar tinggi mengikuti rentang
+                        'max' => 1000, // ✅ Tambahkan ini agar tinggi mengikuti rentang
                         'grid' => ['drawOnChartArea' => false],
                         'ticks' => [
-                            'stepSize' => 10,
+                            'stepSize' => 100,
                             'autoSkip' => false,
                             'padding' => 5, // beri sedikit jarak biar gak dempet
                             'z' => 10, // pastikan ticks tampil di atas bar jika bar terlalu besar

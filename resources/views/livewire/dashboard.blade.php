@@ -1,7 +1,7 @@
 <div>
-  <div class="grid grid-cols-2 md:grid-cols-4 grid-rows-2 md:grid-rows-1 gap-4 mb-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
 
-    <x-linked-stat title="Dana Darurat" :value="number_format($daruratSum)" icon="lucide.siren" :color="$daruratSumColor" class="bg-slate-200 " :link="route('dana-darurat')">
+    <x-linked-stat title="Dana Darurat" :value="number_format($daruratSum)" icon="lucide.siren" :color="$daruratSumColor" class="bg-slate-200 overflow-hidden" :link="route('dana-darurat')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($daruratIdeal) }} (6 bulan)</span>
@@ -9,7 +9,7 @@
 
     </x-linked-stat>
 
-    <x-linked-stat title="Dana Harian" :value="number_format($harianSum)" icon="lucide.wallet" :color="$harianSumColor" class="bg-slate-200" :link="route('dana-harian')">
+    <x-linked-stat title="Dana Harian" :value="number_format($harianSum)" icon="lucide.wallet" :color="$harianSumColor" class="bg-slate-200 overflow-hidden" :link="route('dana-harian')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($harianAverage) }} (1 hari)</span>
@@ -17,7 +17,7 @@
 
     </x-linked-stat>
 
-    <x-linked-stat title="Jumlah Investasi" :value="number_format($invesSum)" icon="lucide.vault" :color="$invesColor" class="bg-slate-200" :link="route('investasi')">
+    <x-linked-stat title="Jumlah Investasi" :value="number_format($invesSum)" icon="lucide.vault" :color="$invesColor" class="bg-slate-200 overflow-hidden" :link="route('investasi')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($invesBtcSum, 8) }} BTC</span>
@@ -25,7 +25,7 @@
 
     </x-linked-stat>
 
-    <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
+    <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 overflow-hidden" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
 
       <x-slot:description>
         <span class="{{ $selColor }} font-bold text-sm">{{ number_format($selSum) }}</span>

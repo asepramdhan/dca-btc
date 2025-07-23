@@ -51,6 +51,6 @@
     </x-slot:empty>
   </x-table>
 
-  <!-- Delete Confirmation Modal -->
-  <x-konfirmasi-modal wireModel="deleteModal" title="Konfirmasi" description="Apakah kamu yakin ingin menghapus data ini?" submitLabel="Hapus" submitAction="deleteConfirmed" />
+  <!-- PIN Modal for Delete Confirmation -->
+  <x-pin-modal wireModel="pinModal" pinModel="pin" title="Konfirmasi Hapus" description="Masukkan PIN untuk menghapus exchange ini." submitLabel="Hapus" submitAction="confirmPin" />
 </div>

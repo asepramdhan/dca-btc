@@ -25,8 +25,8 @@
       <!-- Pengaturan User -->
       <x-menu-sub title="Pengaturan" icon="lucide.settings">
         <x-menu-item title="Exchange" icon="lucide.repeat" :link="route('exchange')" />
-        <x-menu-item title="Profil" icon="lucide.user-circle" link="####" />
-        <x-menu-item title="PIN" icon="lucide.key" link="####" />
+        <x-menu-item title="Profil" icon="lucide.user-circle" :link="route('profil')" />
+        <x-menu-item title="PIN" icon="lucide.key" :link="route('pin')" />
       </x-menu-sub>
       <!-- Pengaturan Admin -->
       <x-menu-sub title="Admin" icon="lucide.wrench">
