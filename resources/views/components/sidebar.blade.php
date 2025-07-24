@@ -28,11 +28,13 @@
         <x-menu-item title="Profil" icon="lucide.user-circle" :link="route('profil')" />
         <x-menu-item title="PIN" icon="lucide.key" :link="route('pin')" />
       </x-menu-sub>
+      @admin
       <!-- Pengaturan Admin -->
       <x-menu-sub title="Admin" icon="lucide.wrench">
-        <x-menu-item title="Users" icon="lucide.user-cog" link="####" />
-        <x-menu-item title="Maintenance" icon="lucide.server-cog" link="####" />
+        <x-menu-item title="Users" icon="lucide.user-cog" :link="route('admin.user')" />
+        <x-menu-item title="Maintenance" icon="lucide.server-cog" :link="route('admin.maintenance')" />
       </x-menu-sub>
+      @endadmin
     </x-menu>
   </x-slot:sidebar>
 </div>

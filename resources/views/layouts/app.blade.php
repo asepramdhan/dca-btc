@@ -8,21 +8,8 @@
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  <!--  Currency  -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
-  <!-- Flatpickr Core -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-  <!-- Tambahkan locale yang kamu butuhkan -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script> {{-- Bahasa Indonesia --}}
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      flatpickr.localize(flatpickr.l10ns.id); // Ganti 'id' sesuai kebutuhan
-    });
-
-  </script>
+  <!-- Currency -->
+  <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
 </head>
 <body class="font-sans antialiased @if(!request()->is('guest/register') && !request()->is('guest/login')) bg-base-200 @endif">
 

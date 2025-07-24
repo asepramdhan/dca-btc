@@ -13,7 +13,7 @@ class TambahExchange extends Component
     public $name, $fee_buy, $fee_sell;
     public function tambahLagi(): void
     {
-        $this->simpanDana();
+        $this->simpanData();
 
         $this->reset('name', 'fee_buy', 'fee_sell');
         $this->miniToast(
@@ -26,7 +26,7 @@ class TambahExchange extends Component
     }
     public function tambahDanKembali(): void
     {
-        $this->simpanDana();
+        $this->simpanData();
 
         $this->miniToast(
             type: 'success',
@@ -34,7 +34,7 @@ class TambahExchange extends Component
             redirectTo: route('exchange'),
         );
     }
-    private function simpanDana(): void
+    private function simpanData(): void
     {
         $data = $this->validate([
             'name' => 'required',

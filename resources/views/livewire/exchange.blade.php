@@ -1,7 +1,7 @@
 <div>
   <x-header>
     <x-slot:middle class="!justify-end">
-      <x-input icon="lucide.bolt" placeholder="Cari Keterangan..." />
+      <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam dan Exchange . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
       <x-button icon="lucide.plus" class="btn-sm btn-ghost" :link="route('tambah-exchange')" />
@@ -16,7 +16,7 @@
     @endscope
     <!-- Date -->
     @scope('cell_created_at', $exchange)
-    {{ $exchange->created_at->format('d M Y') }}
+    {{ $exchange->created_at->format('d M Y H:i') }}
     @endscope
     <!-- Custom cell for Exchange Name (uppercase) -->
     @scope('cell_name', $exchange)

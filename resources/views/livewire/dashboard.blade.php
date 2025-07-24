@@ -55,7 +55,7 @@
 
     <!-- Kolom: Tanggal -->
     @scope('cell_created_at', $investasi)
-    {{ $investasi->created_at->format('d M Y') }}
+    {{ $investasi->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Kolom: Jumlah (Rp) -->
@@ -121,7 +121,7 @@
 
     <!-- Table cell: Created At -->
     @scope('cell_created_at', $danaDarurat)
-    {{ $danaDarurat->created_at->format('d M Y') }}
+    {{ $danaDarurat->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Table cell: Amount -->
@@ -163,7 +163,7 @@
 
     <!-- Date -->
     @scope('cell_created_at', $danaHarian)
-    {{ $danaHarian->created_at->format('d M Y') }}
+    {{ $danaHarian->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Amount -->

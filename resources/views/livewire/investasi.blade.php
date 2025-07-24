@@ -1,14 +1,14 @@
 <div>
   <x-header>
     <x-slot:middle class="!justify-end">
-      <x-input icon="o-bolt" placeholder="Cari Exchange..." />
+      <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam, Tipe dan Keterangan . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
       <x-button icon="lucide.plus" class="btn-sm btn-ghost" :link="route('tambah-investasi')" />
     </x-slot:actions>
   </x-header>
 
-  <x-table :headers="$headers" :rows="$investasis" striped>
+  <x-table :headers="$headers" :rows="$investasis" striped with-pagination>
     <!-- Kolom: No -->
     @scope('cell_id', $investasi)
     <strong>{{ $loop->iteration }}</strong>
@@ -16,7 +16,7 @@
 
     <!-- Kolom: Tanggal -->
     @scope('cell_created_at', $investasi)
-    {{ $investasi->created_at->format('d M Y') }}
+    {{ $investasi->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Kolom: Jumlah (Rp) -->
@@ -73,7 +73,7 @@
     <x-slot:footer class="bg-base-200 text-right">
       <tr>
         <td colspan="10">Total Investasi :
-          {{ number_format($investasis->where('type', 'beli')->sum('amount') - $investasis->where('type', 'jual')->sum('amount')) }}
+          {{ number_format($invesSum) }}
         </td>
       </tr>
     </x-slot:footer>

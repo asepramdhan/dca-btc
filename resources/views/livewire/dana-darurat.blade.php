@@ -1,7 +1,7 @@
 <div>
   <x-header>
     <x-slot:middle class="!justify-end">
-      <x-input icon="o-bolt" placeholder="Cari Keterangan..." />
+      <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam, Tipe dan Keterangan . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
       <x-button icon="o-plus" class="btn-sm btn-ghost" :link="route('tambah-dana-darurat')" />
@@ -17,7 +17,7 @@
 
     <!-- Table cell: Created At -->
     @scope('cell_created_at', $danaDarurat)
-    {{ $danaDarurat->created_at->format('d M Y') }}
+    {{ $danaDarurat->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Table cell: Amount -->

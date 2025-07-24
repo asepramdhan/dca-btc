@@ -3,14 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Traits\MiniToast;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
-use Mary\Traits\Toast;
 
 class Login extends Component
 {
-    use Toast;
+    use MiniToast;
     public $username, $password;
     public function login(): void
     {
@@ -26,12 +26,16 @@ class Login extends Component
         $user = User::where('username', $dataValid['username'])
             ->orWhere('email', $dataValid['username'])
             ->first();
-
-        if ($user && Hash::check($dataValid['password'], $user->password)) {
-            Auth::login($user);
-            $this->success('Login Berhasil', redirectTo: route('dashboard'));
+        if ($user) {
+            // Verifikasi password
+            if ($user && Hash::check($dataValid['password'], $user->password)) {
+                Auth::login($user);
+                $this->miniToast('Login Berhasil', redirectTo: route('dashboard'));
+            } else {
+                $this->miniToast('Username, E-mail atau Password Salah', type: 'error', timeout: 3000);
+            }
         } else {
-            $this->error('Username, E-mail atau Password Salah');
+            $this->miniToast('Akun Tidak Ditemukan', type: 'error');
         }
     }
     public function render()

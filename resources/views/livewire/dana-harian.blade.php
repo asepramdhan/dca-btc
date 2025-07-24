@@ -1,7 +1,7 @@
 <div>
   <x-header>
     <x-slot:middle class="!justify-end">
-      <x-input icon="lucide.bolt" placeholder="Cari Keterangan..." />
+      <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam, Tipe dan Keterangan . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
       <x-button icon="lucide.plus" class="btn-sm btn-ghost" :link="route('tambah-dana-harian')" />
@@ -17,7 +17,7 @@
 
     <!-- Date -->
     @scope('cell_created_at', $danaHarian)
-    {{ $danaHarian->created_at->format('d M Y') }}
+    {{ $danaHarian->created_at->format('d M Y H:i') }}
     @endscope
 
     <!-- Amount -->
@@ -50,10 +50,7 @@
     <x-slot:footer class="bg-base-200 text-right">
       <tr>
         <td colspan="6">Total Dana Harian :
-          {{ number_format(
-            $danaHarians->where('type', 'pemasukan')->sum('amount')
-            - $danaHarians->where('type', 'pengeluaran')->sum('amount')
-          ) }}
+          {{ number_format($harianSum) }}
         </td>
       </tr>
     </x-slot:footer>

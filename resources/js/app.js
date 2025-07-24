@@ -1,6 +1,9 @@
 import "./bootstrap";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
+import { Indonesian } from "flatpickr/dist/l10n/id.js";
 
 Chart.register(ChartDataLabels);
 
@@ -48,3 +51,11 @@ Chart.defaults.plugins.datalabels = {
 };
 
 window.Chart = Chart; // ← ini penting untuk Alpine
+
+// Set default locale ke Bahasa Indonesia
+flatpickr.localize(Indonesian);
+
+// Inisialisasi ke elemen tertentu (optional)
+flatpickr("#tanggal", {
+    dateFormat: "Y-m-d",
+});

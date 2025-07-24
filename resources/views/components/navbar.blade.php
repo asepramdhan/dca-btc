@@ -19,11 +19,10 @@
   <!-- Right side actions -->
   <x-slot:actions>
     @guest
-    <x-button label="Registrasi" icon="lucide.user-pen" :link="route('register')" class="btn-ghost btn-sm" responsive />
+    <x-button label="Daftar" icon="lucide.user-pen" :link="route('register')" class="btn-ghost btn-sm" responsive />
     <x-button label="Masuk" icon="lucide.user-circle-2" :link="route('login')" class="btn-ghost btn-sm" responsive />
     @else
     @unless(request()->is('/'))
-    {{-- <x-badge value="BTC-IDR : 1.900.000.000" class="font-bold bg-base-200" /> --}}
     <livewire:btc-price />
     <x-button icon="lucide.message-circle-off" class="btn-circle btn-ghost btn-sm" /> <!-- icon="lucide.message-circle" -->
     <x-dropdown>

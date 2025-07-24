@@ -24,8 +24,7 @@
 
         <x-slot:actions separator>
           <div class="flex justify-between w-full">
-            <!-- Tombol register dan login -->
-            <x-button label="Registrasi" icon="lucide.user-pen" color="neutral" :link="route('register')" />
+            <x-button label="Daftar" icon="lucide.user-pen" color="neutral" :link="route('register')" />
             <x-button label="Masuk" icon="lucide.user-circle-2" class="btn-primary" type="submit" spinner="login" />
           </div>
         </x-slot:actions>

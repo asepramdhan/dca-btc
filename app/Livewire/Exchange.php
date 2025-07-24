@@ -10,6 +10,7 @@ use Livewire\Component;
 class Exchange extends Component
 {
     use MiniToast;
+    public $search = '';
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
@@ -53,6 +54,13 @@ class Exchange extends Component
     {
         return view('livewire.exchange', [
             'exchanges' => ExchangeModel::with('user')->paginate(10),
+            'exchanges' => ExchangeModel::where(function ($query) {
+                if ($this->search) {
+                    $query->whereDate('created_at', 'like', '%' . $this->search . '%')
+                        ->orWhereRaw("DATE_FORMAT(created_at, '%d-%m-%Y %H:%i') LIKE '%" . $this->search . "%'")
+                        ->orWhere('name', 'like', '%' . $this->search . '%');
+                }
+            })->with('user')->paginate(10),
         ]);
     }
 }

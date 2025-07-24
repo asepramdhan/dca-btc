@@ -3,7 +3,7 @@
     <x-card shadow separator>
       <x-slot:title>
         <div class="flex justify-between w-full">
-          Registrasi
+          Formulir Pendaftaran
           <!-- Tombol kembali ke halaman utama -->
           <x-button icon="lucide.house" class="btn-circle btn-ghost" :link="route('home')" />
         </div>
@@ -18,10 +18,8 @@
 
         <x-slot:actions separator>
           <div class="flex justify-between w-full">
-            <!-- Tombol ke halaman login -->
             <x-button label="Masuk" icon="lucide.user-circle-2" color="neutral" :link="route('login')" />
-            <!-- Tombol submit registrasi -->
-            <x-button label="Registrasi" icon="lucide.user-pen" class="btn-primary" type="submit" spinner="register" />
+            <x-button label="Daftar" icon="lucide.user-pen" class="btn-primary" type="submit" spinner="register" />
           </div>
         </x-slot:actions>
       </x-form>

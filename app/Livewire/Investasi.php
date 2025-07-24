@@ -11,6 +11,10 @@ use Livewire\WithPagination;
 class Investasi extends Component
 {
     use MiniToast, WithPagination;
+    public $search = '';
+    public $investasiSum = 0;
+    public $deleteModal = false;
+    public $selectedId;
     // Table headers configuration
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
@@ -23,8 +27,16 @@ class Investasi extends Component
         ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
         ['key' => 'description', 'label' => 'Keterangan', 'class' => 'hidden sm:table-cell'],
     ];
-    public $deleteModal = false;
-    public $selectedId;
+    public function mount(): void
+    {
+        // Simpan ID user saat ini agar tidak memanggil Auth berkali-kali
+        $userId = Auth::id();
+        // Ambil total amount dan quantity dari investasi (DCA), dikelompokkan berdasarkan tipe (beli/jual)
+        $dca = Dca::selectRaw("type, SUM(amount) as amount_total, SUM(quantity) as quantity_total")
+            ->where('user_id', $userId)->groupBy('type')->get()->keyBy('type');
+        // Hitung total modal investasi = total beli - total jual
+        $this->investasiSum = ($dca['beli']->amount_total ?? 0) - ($dca['jual']->amount_total ?? 0);
+    }
     public function confirmDelete($id)
     {
         $this->selectedId = $id;
@@ -39,10 +51,23 @@ class Investasi extends Component
             title: 'Data berhasil dihapus.',
         );
     }
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
     public function render()
     {
         return view('livewire.investasi', [
-            'investasis' => Dca::with('exchange')->where('user_id', Auth::user()->id)->latest()->paginate(10),
+            'investasis' => Dca::where(function ($query) {
+                $query->where('user_id', Auth::user()->id);
+                if ($this->search) {
+                    $query->whereDate('created_at', 'like', '%' . $this->search . '%')
+                        ->orWhereRaw("DATE_FORMAT(created_at, '%d-%m-%Y %H:%i') LIKE '%" . $this->search . "%'")
+                        ->orWhere('type', 'like', '%' . $this->search . '%')
+                        ->orWhere('description', 'like', '%' . $this->search . '%');
+                }
+            })->with('exchange')->latest()->paginate(10),
+            'invesSum' => $this->investasiSum,
         ]);
     }
 }
