@@ -24,16 +24,18 @@
     @else
     @unless(request()->is('/'))
     <livewire:btc-price />
-    <x-button icon="lucide.message-circle-off" class="btn-circle btn-ghost btn-sm" /> <!-- icon="lucide.message-circle" -->
-    <x-dropdown>
-      <x-slot:trigger>
-        <x-button icon="lucide.bell" class="btn-circle btn-ghost btn-sm " /> <!-- icon="lucide.bell-dot" -->
-      </x-slot:trigger>
-      <x-menu-item title="You have 10 messages" icon="lucide.alert-triangle" />
-    </x-dropdown>
+    <div>
+      <x-button icon="lucide.message-circle-off" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" /> <!-- icon="lucide.message-circle" -->
+      <x-dropdown>
+        <x-slot:trigger>
+          <x-button icon="lucide.bell" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" /> <!-- icon="lucide.bell-dot" -->
+        </x-slot:trigger>
+        <x-menu-item title="You have 10 messages" icon="lucide.alert-triangle" />
+      </x-dropdown>
+    </div>
     @endunless
     @if(request()->is('/'))
-    <x-dropdown label="Hello Ramdan" class="btn-ghost btn-sm" right>
+    <x-dropdown label="Hello Ramdan" class="btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" right>
       <x-menu-item title="Dashboard" icon="lucide.layout-dashboard" class="text-secondary" icon-classes="text-secondary" :link="route('dashboard')" />
       <x-menu-item title="Pengaturan" icon="lucide.settings-2" />
 

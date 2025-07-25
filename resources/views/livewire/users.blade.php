@@ -31,7 +31,7 @@
 
     <!-- Kolom premium_until -->
     @scope('cell_premium_until', $user)
-    {{ $this->getPremiumStatus($user) }}
+    {!! $this->getPremiumStatus($user) !!}
     @endscope
 
     <!-- Kolom tanggal daftar -->

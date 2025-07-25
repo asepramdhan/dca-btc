@@ -1,5 +1,17 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
+    isDark: window.matchMedia('(prefers-color-scheme: dark)').matches
+  }" x-init="
+    $watch('isDark', value => {
+      document.documentElement.classList.toggle('dark', value);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      isDark = e.matches;
+    });
+
+    document.documentElement.classList.toggle('dark', isDark);
+  ">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -35,5 +47,7 @@
 
   <!-- TOAST area -->
   <x-mini-toast />
+  <!-- Theme toggle -->
+  <x-theme-toggle class="hidden" />
 </body>
 </html>

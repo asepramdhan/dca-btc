@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class editDanaModal extends Component
+class blurIfNotPremium extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class editDanaModal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.edit-dana-modal');
+        return view('components.blur-if-not-premium');
     }
 }

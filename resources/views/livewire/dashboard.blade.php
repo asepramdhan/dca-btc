@@ -1,7 +1,7 @@
 <div>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
 
-    <x-linked-stat title="Dana Darurat" :value="number_format($daruratSum)" icon="lucide.siren" :color="$daruratSumColor" class="bg-slate-200 overflow-hidden" :link="route('dana-darurat')">
+    <x-linked-stat title="Dana Darurat" :value="number_format($daruratSum)" icon="lucide.siren" :color="$daruratSumColor" class="bg-slate-200 dark:bg-slate-700 overflow-hidden" :link="route('dana-darurat')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($daruratIdeal) }} (6 bulan)</span>
@@ -9,7 +9,7 @@
 
     </x-linked-stat>
 
-    <x-linked-stat title="Dana Harian" :value="number_format($harianSum)" icon="lucide.wallet" :color="$harianSumColor" class="bg-slate-200 overflow-hidden" :link="route('dana-harian')">
+    <x-linked-stat title="Dana Harian" :value="number_format($harianSum)" icon="lucide.wallet" :color="$harianSumColor" class="bg-slate-200 dark:bg-slate-700 overflow-hidden" :link="route('dana-harian')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($harianAverage) }} (1 hari)</span>
@@ -17,7 +17,7 @@
 
     </x-linked-stat>
 
-    <x-linked-stat title="Jumlah Investasi" :value="number_format($invesSum)" icon="lucide.vault" :color="$invesColor" class="bg-slate-200 overflow-hidden" :link="route('investasi')">
+    <x-linked-stat title="Jumlah Investasi" :value="number_format($invesSum)" icon="lucide.vault" :color="$invesColor" class="bg-slate-200 dark:bg-slate-700 overflow-hidden" :link="route('investasi')">
 
       <x-slot:description>
         <span class="font-bold text-sm">{{ number_format($invesBtcSum, 8) }} BTC</span>
@@ -25,22 +25,46 @@
 
     </x-linked-stat>
 
-    <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 overflow-hidden" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
+    <x-blur-if-not-premium :link="route('dashboard')">
+      <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 dark:bg-slate-700 overflow-hidden" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
 
-      <x-slot:description>
-        <span class="{{ $selColor }} font-bold text-sm">{{ number_format($selSum) }}</span>
-        <span class="{{ $selColor }}">({{ number_format($persenSum, 2) }}%)</span>
-      </x-slot:description>
+        <x-slot:description>
+          <span class="{{ $selColor }} font-bold text-sm">{{ number_format($selSum) }}</span>
+          <span class="{{ $selColor }}">({{ number_format($persenSum, 2) }}%)</span>
+        </x-slot:description>
 
-    </x-stat>
+      </x-stat>
 
+    </x-blur-if-not-premium>
   </div>
 
   <!-- Chart -->
-  <div class="my-10 w-full overflow-x-auto">
+  @php
+  $isPremium = auth()->user()?->premium_until;
+  @endphp
+
+  <div class="relative my-10 group">
+    @if ($isPremium)
+    <!-- Premium user: tampil normal -->
     <div class="min-w-[700px] sm:min-w-full h-[300px] sm:h-[400px] md:h-[500px]">
       <x-chart wire:poll.300s="updateDashboard" wire:model="myChart" class="h-full" />
     </div>
+    @else
+    <!-- Free user: tampil blur + overlay -->
+    <div class="blur-sm opacity-60 pointer-events-none select-none transform scale-[0.97] transition-all duration-300">
+      <div class="min-w-[700px] sm:min-w-full h-[300px] sm:h-[400px] md:h-[500px]">
+        <x-chart wire:poll.300s="updateDashboard" wire:model="myChart" class="h-full" />
+      </div>
+    </div>
+
+    <!-- Tombol overlay upgrade -->
+    <a href="###" wire:navigate class="absolute inset-0 flex items-center justify-center
+             opacity-0 group-hover:opacity-100 transition-opacity duration-200
+             bg-white/70 dark:bg-neutral-800/70
+             text-emerald-600 underline text-sm font-semibold rounded">
+      Upgrade ke Premium cuma rp1.000 / hari
+    </a>
+    @endif
   </div>
 
   <!-- Header investasi -->

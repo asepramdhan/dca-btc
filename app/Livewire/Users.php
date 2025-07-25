@@ -35,12 +35,13 @@ class Users extends Component
 
         $diff = Carbon::now()->diff(Carbon::parse($user->premium_until));
 
+        $days = $diff->days;
         return $diff->invert
-            ? "Expired {$diff->days} hari lalu"
-            : ($diff->days > 0
-                ? "{$diff->days} hari lagi"
-                : ($diff->days === 0
-                    ? 'Hari terakhir'
+            ? "Expired <span class='font-bold text-2xl'>{$days}</span> <br> hari lalu"
+            : ($days > 0
+                ? "<span class='font-bold text-2xl'>{$days}</span> <br> hari lagi"
+                : ($days === 0
+                    ? '<span class="font-bold text-2xl"> <br> Hari terakhir</span>'
                     : 'Expired'));
     }
     // Show PIN modal for delete confirmation
