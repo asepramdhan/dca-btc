@@ -1,4 +1,7 @@
 <div>
+  @php
+  $isPremium = auth()->user()?->premium_until;
+  @endphp
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
 
     <x-linked-stat title="Dana Darurat" :value="number_format($daruratSum)" icon="lucide.siren" :color="$daruratSumColor" class="bg-slate-200 dark:bg-slate-700 overflow-hidden" :link="route('dana-darurat')">
@@ -24,48 +27,50 @@
       </x-slot:description>
 
     </x-linked-stat>
-
-    <x-blur-if-not-premium :link="route('dashboard')">
-      <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 dark:bg-slate-700 overflow-hidden" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
-
+    @if ($isPremium)
+    <!-- Premium user: tampil normal -->
+    <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 dark:bg-slate-700 overflow-hidden" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
+      <x-slot:description>
+        <span class="{{ $selColor }} font-bold text-sm">{{ number_format($selSum) }}</span>
+        <span class="{{ $selColor }}">({{ number_format($persenSum, 2) }}%)</span>
+      </x-slot:description>
+    </x-stat>
+    @else
+    <!-- Non premium user: tampil blur -->
+    <div class="relative group">
+      <x-stat title="Portofolio" :value="number_format($portoSum)" icon="lucide.pie-chart" class="{{ $portoColor }} bg-slate-200 dark:bg-slate-700 overflow-hidden blur-xs lg:group-hover:blur-sm lg:transition lg:duration-300" color="text-pink-500" :tooltip-bottom="$portoTooltip" wire:poll.300s='updateDashboard'>
         <x-slot:description>
           <span class="{{ $selColor }} font-bold text-sm">{{ number_format($selSum) }}</span>
           <span class="{{ $selColor }}">({{ number_format($persenSum, 2) }}%)</span>
         </x-slot:description>
-
       </x-stat>
 
-    </x-blur-if-not-premium>
+      <!-- Tombol muncul saat hover -->
+      <x-button label="Upgrade to Premium" class="btn-primary btn-sm btn-soft w-40 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/upgrade" />
+    </div>
+    @endif
+
   </div>
 
   <!-- Chart -->
-  @php
-  $isPremium = auth()->user()?->premium_until;
-  @endphp
-
-  <div class="relative my-10 group">
-    @if ($isPremium)
-    <!-- Premium user: tampil normal -->
+  @if ($isPremium)
+  <!-- Premium user: tampil normal -->
+  <div class="my-10 overflow-auto">
     <div class="min-w-[700px] sm:min-w-full h-[300px] sm:h-[400px] md:h-[500px]">
       <x-chart wire:poll.300s="updateDashboard" wire:model="myChart" class="h-full" />
     </div>
-    @else
-    <!-- Free user: tampil blur + overlay -->
-    <div class="blur-sm opacity-60 pointer-events-none select-none transform scale-[0.97] transition-all duration-300">
-      <div class="min-w-[700px] sm:min-w-full h-[300px] sm:h-[400px] md:h-[500px]">
-        <x-chart wire:poll.300s="updateDashboard" wire:model="myChart" class="h-full" />
-      </div>
+  </div>
+  @else
+  <!-- Free user: tampil blur + overlay -->
+  <div class="relative my-10 group overflow-auto">
+    <div class="min-w-[700px] sm:min-w-full h-[300px] sm:h-[400px] md:h-[500px]">
+      <x-chart wire:poll.300s="updateDashboard" wire:model="myChart" class="h-full blur-xs lg:group-hover:blur-sm lg:transition lg:duration-300" />
     </div>
 
-    <!-- Tombol overlay upgrade -->
-    <a href="###" wire:navigate class="absolute inset-0 flex items-center justify-center
-             opacity-0 group-hover:opacity-100 transition-opacity duration-200
-             bg-white/70 dark:bg-neutral-800/70
-             text-emerald-600 underline text-sm font-semibold rounded">
-      Upgrade ke Premium cuma rp1.000 / hari
-    </a>
-    @endif
+    <!-- Tombol muncul saat hover -->
+    <x-button label="Upgrade ke Premium cuma 1.000 / satu hari" class="btn-primary btn-sm btn-soft w-70 lg:w-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/upgrade" />
   </div>
+  @endif
 
   <!-- Header investasi -->
   <x-header title="Investasi" icon="lucide.vault" icon-classes="bg-warning rounded-full p-1 w-6 h-6" size="text-xl" separator />

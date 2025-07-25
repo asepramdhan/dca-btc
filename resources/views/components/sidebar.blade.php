@@ -1,15 +1,31 @@
 <div>
+  @php
+  $user = auth()->user();
+  $isPremium = $user?->premium_until;
+  @endphp
   <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200" collapse-text="Tutup" collapse-icon="lucide.chevron-right" open-collapse-icon="lucide.chevron-left" right>
 
     <!-- User -->
-    @if($user = auth()->user())
-    <x-list-item :item="$user" sub-value="email" no-separator no-hover class="py-4">
+    @if($user)
+    <x-list-item :item="$user" no-separator no-hover class="py-4">
       <x-slot:avatar>
         <x-avatar :placeholder="Str::upper(Str::substr($user->name, 0, 1))" class="!w-10" />
       </x-slot:avatar>
       <x-slot:value>
         {{ Str::title($user->name) }}
       </x-slot:value>
+      <x-slot:sub-value>
+        {{ $user->email }}
+        <div>
+          @if($isPremium)
+          <x-badge value="Premium" class="badge-primary badge-soft badge-sm" />
+          <span class="text-xs">{!! $getPremiumStatus($user) !!}</span>
+          @else
+          <x-badge value="Free" class="badge-soft badge-sm" />
+          <x-button label="Upgrade" class="btn-ghost btn-sm text-blue-500 hover:bg-transparent hover:shadow-none hover:border-transparent" link="/upgrade" />
+          @endif
+        </div>
+      </x-slot:sub-value>
       <x-slot:actions>
         <livewire:logout-button />
       </x-slot:actions>

@@ -23,10 +23,10 @@
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
 </head>
-<body class="font-sans antialiased @if(!request()->is('guest/register') && !request()->is('guest/login')) bg-base-200 @endif">
+<body class="font-sans antialiased @if(!request()->is('guest/register') && !request()->is('guest/login') && !request()->is('upgrade')) bg-base-200 @endif">
 
   <!-- The navbar with `sticky` and `full-width` -->
-  @unless(request()->is('guest/register') || request()->is('guest/login'))
+  @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('upgrade'))
   <x-navbar />
   @endunless
 
@@ -35,7 +35,7 @@
 
     <!-- This is a sidebar that works also as a drawer on small screens -->
     <!-- Notice the `main-drawer` reference here -->
-    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login'))
+    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('upgrade'))
     <x-sidebar />
     @endunless
 

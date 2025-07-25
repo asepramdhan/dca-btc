@@ -35,9 +35,9 @@
     </div>
     @endunless
     @if(request()->is('/'))
-    <x-dropdown label="Hello Ramdan" class="btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" right>
+    <x-dropdown label="Hai {{ Str::title(auth()->user()->name) }}" class="btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" right>
       <x-menu-item title="Dashboard" icon="lucide.layout-dashboard" class="text-secondary" icon-classes="text-secondary" :link="route('dashboard')" />
-      <x-menu-item title="Pengaturan" icon="lucide.settings-2" />
+      <x-menu-item title="Pengaturan" icon="lucide.settings-2" :link="route('profil')" />
 
       <x-menu-separator />
 
