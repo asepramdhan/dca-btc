@@ -1,4 +1,28 @@
-<div>
+<div x-data="{
+    init() {
+      $wire.$on('snap-token-received', ({ token }) => {
+          console.log('Snap Token:', token); // Tambahan ini
+        window.snap.pay(token, {
+          onSuccess(result) {
+            alert('Pembayaran sukses!');
+            console.log(result);
+          },
+          onPending(result) {
+            alert('Menunggu pembayaran...');
+            console.log(result);
+          },
+          onError(result) {
+            alert('Pembayaran gagal!');
+            console.log(result);
+          },
+          onClose() {
+            alert('Kamu menutup popup pembayaran');
+          }
+        });
+      });
+    }
+  }" x-init="init">
+
   <h2 class="text-xl font-bold text-center text-gray-700 mb-6">Pilih Paket Premium</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-4">
 
@@ -23,7 +47,7 @@
           <div class="text-lg font-bold text-gray-800">Rp30.000</div>
           <div class="text-sm text-gray-500">per bulan</div>
         </div>
-        <x-button label="Upgrade" class="btn-primary" :link="route('pin')" />
+        <x-button label="Upgrade" class="btn-primary" wire:click="pay" />
       </div>
     </x-card>
 

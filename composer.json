@@ -17,6 +17,7 @@
         "livewire/livewire": "^3.6",
         "livewire/volt": "^1.7",
         "mallardduck/blade-lucide-icons": "^1.23",
+        "midtrans/midtrans-php": "2.5",
         "robsontenorio/mary": "^2.4"
     },
     "require-dev": {

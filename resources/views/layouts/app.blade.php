@@ -22,6 +22,9 @@
 
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
+
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+  </script>
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200">
 
