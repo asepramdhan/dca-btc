@@ -23,6 +23,18 @@ class TambahInvestasi extends Component
         ['id' => 'beli', 'name' => 'Beli'],
         ['id' => 'jual', 'name' => 'Jual'],
     ];
+    // Breadcrumbs configuratio
+    public $breadcrumbs = [
+        [
+            'link' => '/auth/dashboard',
+            'icon' => 'lucide.layout-dashboard',
+        ],
+        [
+            'link' => '/auth/investasi',
+            'label' => 'Investasi',
+            'icon' => 'lucide.vault',
+        ],
+    ];
     public function tambahLagi(): void
     {
         $this->simpanDana();

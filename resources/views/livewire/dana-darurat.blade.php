@@ -1,4 +1,12 @@
 <div>
+  <x-header size="text-xl" separator>
+    <x-slot:title>
+      <a href="{{ route('dana-darurat') }}" wire:navigate>
+        <x-icon name="lucide.wallet" label="Dana Darurat" />
+      </a>
+    </x-slot:title>
+  </x-header>
+
   <x-header>
     <x-slot:middle class="!justify-end">
       <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam, Tipe dan Keterangan . . ." wire:model.live='search' />

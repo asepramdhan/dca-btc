@@ -23,7 +23,7 @@
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
 </head>
-<body class="font-sans antialiased @if(!request()->is('guest/register') && !request()->is('guest/login') && !request()->is('upgrade')) bg-base-200 @endif">
+<body class="min-h-screen font-sans antialiased bg-base-200">
 
   <!-- The navbar with `sticky` and `full-width` -->
   @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('upgrade'))
@@ -41,6 +41,11 @@
 
     <!-- The `$slot` goes here -->
     <x-slot:content>
+      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('upgrade'))
+      <div class="bg-base-200 mb-4">
+        <x-app-breadcrumbs :items="breadcrumbs()" />
+      </div>
+      @endunless
       {{ $slot }}
     </x-slot:content>
   </x-main>

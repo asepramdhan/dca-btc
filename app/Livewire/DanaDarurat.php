@@ -21,8 +21,8 @@ class DanaDarurat extends Component
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
         ['key' => 'amount', 'label' => 'Jumlah'],
-        ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'description', 'label' => 'Keterangan', 'class' => 'hidden sm:table-cell'],
+        ['key' => 'type', 'label' => 'Tipe'],
+        ['key' => 'description', 'label' => 'Keterangan'],
     ];
 
     public function mount()

@@ -17,11 +17,11 @@ class Dashboard extends Component
         ['key' => 'created_at', 'label' => 'Tanggal'],
         ['key' => 'amount', 'label' => 'Jumlah (Rp)'],
         ['key' => 'price', 'label' => 'Harga Beli/Jual'],
-        ['key' => 'fee', 'label' => 'Fee', 'class' => 'hidden sm:table-cell'],
+        ['key' => 'fee', 'label' => 'Fee'],
         ['key' => 'quantity', 'label' => 'Jumlah BTC'],
         ['key' => 'exchange_id', 'label' => 'Exchange'],
-        ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'description', 'label' => 'Keterangan', 'class' => 'hidden sm:table-cell'],
+        ['key' => 'type', 'label' => 'Tipe'],
+        ['key' => 'description', 'label' => 'Keterangan'],
     ];
     public $headerDanaDarurats = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
@@ -35,7 +35,7 @@ class Dashboard extends Component
         ['key' => 'created_at', 'label' => 'Tanggal'],
         ['key' => 'amount', 'label' => 'Jumlah'],
         ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'description', 'label' => 'Keterangan', 'class' => 'hidden sm:table-cell'],
+        ['key' => 'description', 'label' => 'Keterangan'],
     ];
     public ?int $bitcoinIdr = null;
     public $danaDaruratSum = 0;

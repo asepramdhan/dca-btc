@@ -3,7 +3,7 @@
   $user = auth()->user();
   $isPremium = $user?->premium_until;
   @endphp
-  <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200" collapse-text="Tutup" collapse-icon="lucide.chevron-right" open-collapse-icon="lucide.chevron-left" right>
+  <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200 lg:bg-inherit" collapse-text="Tutup" collapse-icon="lucide.chevron-right" open-collapse-icon="lucide.chevron-left" right>
 
     <!-- User -->
     @if($user)

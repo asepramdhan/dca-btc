@@ -21,11 +21,28 @@ class Investasi extends Component
         ['key' => 'created_at', 'label' => 'Tanggal'],
         ['key' => 'amount', 'label' => 'Jumlah (Rp)'],
         ['key' => 'price', 'label' => 'Harga Beli/Jual'],
-        ['key' => 'fee', 'label' => 'Fee', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'quantity', 'label' => 'Jumlah BTC', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'exchange_id', 'label' => 'Exchange', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
-        ['key' => 'description', 'label' => 'Keterangan', 'class' => 'hidden sm:table-cell'],
+        ['key' => 'fee', 'label' => 'Fee'],
+        ['key' => 'quantity', 'label' => 'Jumlah BTC'],
+        ['key' => 'exchange_id', 'label' => 'Exchange'],
+        ['key' => 'type', 'label' => 'Tipe'],
+        ['key' => 'description', 'label' => 'Keterangan'],
+    ];
+    // Breadcrumbs configuratio
+    public $breadcrumbs = [
+        [
+            'link' => '/auth/dashboard',
+            'icon' => 'lucide.layout-dashboard',
+        ],
+        [
+            'link' => '/auth/investasi',
+            'label' => 'Investasi',
+            'icon' => 'lucide.vault',
+        ],
+        [
+            'link' => '/auth/investasi/tambah-investasi',
+            'label' => 'Tambah Investasi',
+            'icon' => 'lucide.circle-fading-plus',
+        ],
     ];
     public function mount(): void
     {
