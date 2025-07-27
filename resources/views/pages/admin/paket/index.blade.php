@@ -2,12 +2,12 @@
 
 use function Laravel\Folio\name;
  
-name('admin.users');
+name('admin.paket');
 
 ?>
 
 <x-app-layout>
   <div>
-    <livewire:users />
+    <livewire:paket />
   </div>
 </x-app-layout>

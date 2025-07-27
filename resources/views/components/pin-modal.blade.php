@@ -21,8 +21,7 @@
       <x-button class="btn-ghost" :link="route('pin')">
         <span class="flex items-center space-x-2">
           <x-icon name="lucide.key" class="w-4 h-4" />
-          <span>{{ auth()->user()->pin ? 'PIN sudah diatur, tetapi lupa?' : 'PIN belum diatur' }}</span>
-          {{-- <span>{{ auth()->user()->pin ? 'Ubah PIN' : 'Buat PIN Baru' }}</span> --}}
+          <span>{{ auth()->user()->pin ? 'Lupa PIN ?' : 'PIN belum diatur' }}</span>
         </span>
       </x-button>
       <x-button label="{{ $cancelLabel }}" @click="$wire.{{ $wireModel }} = false" />

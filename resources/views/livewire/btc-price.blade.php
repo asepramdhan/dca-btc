@@ -16,7 +16,7 @@
         {{ number_format($bitcoinIdr, 0, ',', '.') }}
       </span>
       <!-- Tombol muncul saat hover -->
-      <x-button label="Upgrade" class="btn-ghost btn-sm text-blue-500 hover:bg-transparent hover:shadow-none hover:border-transparent absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/upgrade" />
+      <x-button label="Upgrade" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
     </div>
     @endif
   </div>

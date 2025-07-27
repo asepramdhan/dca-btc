@@ -22,7 +22,7 @@
           <span class="text-xs">{!! $getPremiumStatus($user) !!}</span>
           @else
           <x-badge value="Free" class="badge-soft badge-sm" />
-          <x-button label="Upgrade" class="btn-ghost btn-sm text-blue-500 hover:bg-transparent hover:shadow-none hover:border-transparent" link="/upgrade" />
+          <x-button label="Upgrade" class="btn-ghost btn-sm text-blue-500 hover:bg-transparent hover:shadow-none hover:border-transparent" link="/auth/upgrade" no-wire-navigate />
           @endif
         </div>
       </x-slot:sub-value>
@@ -38,6 +38,7 @@
       <x-menu-item title="Investasi" icon="lucide.vault" :link="route('investasi')" />
       <x-menu-item title="Dana Darurat" icon="lucide.siren" :link="route('dana-darurat')" />
       <x-menu-item title="Dana Harian" icon="lucide.wallet" :link="route('dana-harian')" />
+      <x-menu-item title="Transaksi" icon="lucide.receipt-text" link="/auth/transactions" />
       <!-- Pengaturan User -->
       <x-menu-sub title="Pengaturan" icon="lucide.settings">
         <x-menu-item title="Exchange" icon="lucide.repeat" :link="route('exchange')" />
@@ -45,11 +46,31 @@
         <x-menu-item title="PIN" icon="lucide.key" :link="route('pin')" />
       </x-menu-sub>
       @admin
+
+      <x-menu-separator />
+
+      <x-menu-item>
+        My <b>admin</b>
+      </x-menu-item>
+
       <!-- Pengaturan Admin -->
-      <x-menu-sub title="Admin" icon="lucide.wrench">
-        <x-menu-item title="Users" icon="lucide.user-cog" :link="route('admin.user')" />
-        <x-menu-item title="Maintenance" icon="lucide.server-cog" :link="route('admin.maintenance')" />
+      <!-- 📁 Management -->
+      <x-menu-sub title="Management" icon="lucide.settings">
+        <x-menu-item title="Users" icon="lucide.user-cog" link="/admin/users" />
+        <x-menu-item title="Maintenance" icon="lucide.server-cog" link="/admin/maintenance" />
       </x-menu-sub>
+
+      <!-- 💳 Paket & Transaksi -->
+      <x-menu-sub title="Paket & Transaksi" icon="lucide.credit-card">
+        <x-menu-item title="Daftar Paket" icon="lucide.layers" link="/admin/paket" />
+        <x-menu-item title="Transaksi" icon="lucide.receipt-text" link="/admin/transactions" />
+      </x-menu-sub>
+
+      <!-- ⚙️ Pengaturan Sistem -->
+      <x-menu-sub title="Pengaturan" icon="lucide.sliders-horizontal">
+        <x-menu-item title="Konfigurasi Umum" icon="lucide.settings" link="/admin/settings" />
+      </x-menu-sub>
+
       @endadmin
     </x-menu>
   </x-slot:sidebar>

@@ -1,37 +1,58 @@
 <div x-data="{
+    isPaying: false,
     init() {
-      $wire.$on('snap-token-received', ({ token }) => {
-          console.log('Snap Token:', token); // Tambahan ini
-        window.snap.pay(token, {
-          onSuccess(result) {
-            alert('Pembayaran sukses!');
-            console.log(result);
-          },
-          onPending(result) {
-            alert('Menunggu pembayaran...');
-            console.log(result);
-          },
-          onError(result) {
-            alert('Pembayaran gagal!');
-            console.log(result);
-          },
-          onClose() {
-            alert('Kamu menutup popup pembayaran');
-          }
+        $wire.$on('snap-token-received', ({ token }) => {
+            if (!token) {
+                console.error('❌ Token tidak diterima');
+                return;
+            }
+
+            if (this.isPaying) {
+                console.log('⚠️ Masih dalam proses pembayaran...');
+                return;
+            }
+
+            this.isPaying = true;
+
+            snap.pay(token, {
+                onSuccess: (result) => {
+                    console.log('✅ Success', result);
+                    this.isPaying = false;
+
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                },
+                onPending: (result) => {
+                    console.log('🕒 Pending', result);
+                    this.isPaying = false;
+
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                },
+                onError: (result) => {
+                    console.error('❌ Error', result);
+                    this.isPaying = false;
+                },
+                onClose: () => {
+                    console.log('❌ Popup ditutup oleh user');
+                    this.isPaying = false;
+                },
+            });
         });
-      });
     }
-  }" x-init="init">
+}" x-init="init">
 
   <h2 class="text-xl font-bold text-center text-gray-700 mb-6">Pilih Paket Premium</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-4">
 
+    @if ($satuBulan == null)
+    @elseif ($satuBulan->is_active)
     <!-- Langganan 1 Bulan -->
     <x-card shadow separator class="border-2 border-slate-100 lg:transform lg:transition lg:duration-300 lg:ease-in-out 
          lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-md">
       <x-slot:title>
         <div class="flex justify-between items-center w-full">
-          Premium 1 Bulan
+          {{ Str::title($satuBulan->name) }}
           <x-button icon="lucide.star" class="btn-circle btn-ghost hover:bg-transparent hover:shadow-none hover:border-transparent" />
         </div>
       </x-slot:title>
@@ -44,19 +65,22 @@
 
       <div class="mt-4 flex justify-between items-center">
         <div>
-          <div class="text-lg font-bold text-gray-800">Rp30.000</div>
+          <div class="text-lg font-bold text-gray-800">Rp{{ number_format($satuBulan->price, 0, ',', '.') }}</div>
           <div class="text-sm text-gray-500">per bulan</div>
         </div>
-        <x-button label="Upgrade" class="btn-primary" wire:click="pay" />
+        <x-button label="Upgrade" class="btn-primary" wire:click="pay({{ $satuBulan->id }})" spinner />
       </div>
     </x-card>
+    @endif
 
+    @if ($duaBulan == null)
+    @elseif ($duaBulan->is_active)
     <!-- Langganan 2 Bulan -->
     <x-card shadow separator class="border-2 border-indigo-200 lg:transform lg:transition lg:duration-300 lg:ease-in-out 
          lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:border-indigo-400 lg:hover:bg-indigo-50">
       <x-slot:title>
         <div class="flex justify-between items-center w-full">
-          Premium 2 Bulan
+          {{ Str::title($duaBulan->name) }}
           <x-button icon="lucide.badge-check" class="btn-circle btn-ghost hover:bg-transparent hover:shadow-none hover:border-transparent" />
         </div>
       </x-slot:title>
@@ -69,20 +93,23 @@
 
       <div class="mt-4 flex justify-between items-center">
         <div>
-          <div class="text-lg font-bold text-gray-800">Rp59.000</div>
+          <div class="text-lg font-bold text-gray-800">Rp{{ number_format($duaBulan->price, 0, ',', '.') }}</div>
           <div class="text-sm text-gray-500">untuk 2 bulan</div>
         </div>
-        <x-button label="Upgrade" class="btn-primary" :link="route('pin')" />
+        <x-button label="Upgrade" class="btn-primary" wire:click="pay({{ $duaBulan->id }})" spinner />
       </div>
     </x-card>
+    @endif
 
+    @if ($satuTahun == null)
+    @elseif ($satuTahun->is_active)
     <!-- Langganan 1 Tahun -->
     <div class="group w-full">
       <x-card shadow separator class="w-full border-2 border-yellow-400 lg:transform lg:transition lg:duration-300 lg:ease-in-out 
            lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-2xl lg:hover:bg-yellow-50 lg:hover:border-yellow-500">
         <x-slot:title>
           <div class="flex justify-between items-center w-full">
-            Premium 1 Tahun
+            {{ Str::title($satuTahun->name) }}
             <x-button icon="lucide.crown" class="btn-circle btn-ghost text-yellow-500 lg:transition-transform lg:duration-500 lg:group-hover:rotate-6 hover:bg-transparent hover:shadow-none hover:border-transparent" />
           </div>
         </x-slot:title>
@@ -96,13 +123,14 @@
 
         <div class="mt-4 flex justify-between items-center">
           <div>
-            <div class="text-lg font-bold text-yellow-600">Rp299.000</div>
+            <div class="text-lg font-bold text-yellow-600">Rp{{ number_format($satuTahun->price, 0, ',', '.') }}</div>
             <div class="text-sm text-gray-500">untuk 1 tahun</div>
           </div>
-          <x-button label="Upgrade" class="btn-warning" :link="route('pin')" />
+          <x-button label="Upgrade" class="btn-warning" wire:click="pay({{ $satuTahun->id }})" spinner />
         </div>
       </x-card>
     </div>
+    @endif
 
   </div>
 

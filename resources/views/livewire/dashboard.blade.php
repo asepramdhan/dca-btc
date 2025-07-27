@@ -46,7 +46,7 @@
       </x-stat>
 
       <!-- Tombol muncul saat hover -->
-      <x-button label="Upgrade to Premium" class="btn-primary btn-sm btn-soft w-40 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/upgrade" />
+      <x-button label="Upgrade" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
     </div>
     @endif
 
@@ -68,7 +68,7 @@
     </div>
 
     <!-- Tombol muncul saat hover -->
-    <x-button label="Upgrade ke Premium cuma 1.000 / satu hari" class="btn-primary btn-sm btn-soft w-70 lg:w-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/upgrade" />
+    <x-button label="Upgrade Premium 1.000/hari" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
   </div>
   @endif
 

@@ -17,9 +17,11 @@ class Maintenance extends Component
         'investasi',
         'dana-darurat',
         'dana-harian',
+        'transactions',
         'exchange',
         'profil',
-        'pin'
+        'pin',
+        'upgrade',
     ];
     // Inisialisasi data saat komponen dimount
     public function mount(): void

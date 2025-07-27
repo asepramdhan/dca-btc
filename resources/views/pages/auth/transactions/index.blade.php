@@ -2,12 +2,12 @@
 
 use function Laravel\Folio\name;
  
-name('admin.users');
+// name();
 
 ?>
 
 <x-app-layout>
   <div>
-    <livewire:users />
+    <livewire:transactions />
   </div>
 </x-app-layout>

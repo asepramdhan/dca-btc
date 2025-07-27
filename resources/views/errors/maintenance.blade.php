@@ -44,8 +44,8 @@
 
     {{-- Tombol kembali ke halaman depan --}}
     <div>
-      <a href="/" class="inline-block mt-4 px-4 py-2 bg-warning text-white font-semibold rounded-lg shadow hover:bg-warning/90 transition">
-        🔙 Kembali ke Halaman Depan
+      <a href="{{ route('dashboard') }}" wire:navigate class="inline-block mt-4 px-4 py-2 bg-warning text-white font-semibold rounded-lg shadow hover:bg-warning/90 transition">
+        🔙 Kembali ke Halaman Dashboard
       </a>
     </div>
 

@@ -22,14 +22,14 @@
 
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
-
+  <!-- Snap -->
   <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
   </script>
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200">
 
   <!-- The navbar with `sticky` and `full-width` -->
-  @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('upgrade'))
+  @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade'))
   <x-navbar />
   @endunless
 
@@ -38,13 +38,13 @@
 
     <!-- This is a sidebar that works also as a drawer on small screens -->
     <!-- Notice the `main-drawer` reference here -->
-    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('upgrade'))
+    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade'))
     <x-sidebar />
     @endunless
 
     <!-- The `$slot` goes here -->
     <x-slot:content>
-      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('upgrade'))
+      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('auth/upgrade'))
       <div class="bg-base-200 mb-4">
         <x-app-breadcrumbs :items="breadcrumbs()" />
       </div>

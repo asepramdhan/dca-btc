@@ -11,6 +11,10 @@ class Exchange extends Component
 {
     use MiniToast;
     public $search = '';
+    // Component state variables
+    public string $pin = '';
+    public bool $pinModal = false;
+    public int|null $pendingDeleteId = null;
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
@@ -19,10 +23,6 @@ class Exchange extends Component
         ['key' => 'fee_sell', 'label' => 'Fee Jual'],
         ['key' => 'user_id', 'label' => 'Pembuat'],
     ];
-    // Component state variables
-    public string $pin = '';
-    public bool $pinModal = false;
-    public int|null $pendingDeleteId = null;
     // Show PIN modal for delete confirmation
     public function confirmDelete(int $id): void
     {

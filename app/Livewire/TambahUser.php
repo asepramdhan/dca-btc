@@ -22,7 +22,7 @@ class TambahUser extends Component
     {
         $this->validasiData();
         $this->tambahData();
-        $this->miniToast('User berhasil ditambahkan', redirectTo: route('admin.user'));
+        $this->miniToast('User berhasil ditambahkan', redirectTo: '/admin/users');
     }
     private function validasiData(): void
     {

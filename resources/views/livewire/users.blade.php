@@ -4,7 +4,7 @@
       <x-input icon="lucide.search" placeholder="Cari Nama, Username, E-mail, Role, Tipe akun, Tanggal daftar, Terakhir diubah . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
-      <x-button icon="lucide.plus" class="btn-sm btn-ghost" :link="route('tambah-user')" />
+      <x-button icon="lucide.plus" class="btn-sm btn-ghost" link="/admin/users/tambah-user" />
     </x-slot:actions>
   </x-header>
   <!-- Tabel data user -->
