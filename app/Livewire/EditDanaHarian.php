@@ -36,7 +36,7 @@ class EditDanaHarian extends Component
         ]);
         $data['user_id'] = Auth::user()->id;
         $this->daily->update($data);
-        $this->miniToast('Dana Harian Berhasil Diubah', redirectTo: route('dana-harian'));
+        $this->miniToast('Dana Harian Berhasil Diubah', redirectTo: '/auth/dana-harian');
     }
     public function render()
     {

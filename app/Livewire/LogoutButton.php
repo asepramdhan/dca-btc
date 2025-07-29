@@ -13,7 +13,7 @@ class LogoutButton extends Component
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
-        $this->redirect(route('login'), navigate: true);
+        $this->redirect('/guest/login');
     }
     public function render()
     {

@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Daily;
 use App\Models\Dca;
 use App\Models\Emergency;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -12,6 +14,27 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    public ?User $user;
+    public bool $isStillPremium = false;
+    public bool $isFreeTrial = false;
+    public bool $isFree = false;
+    public ?int $bitcoinIdr = null;
+    public $danaDaruratSum = 0;
+    public $danaDaruratColor = 'text-error';
+    public $idealEmergency = 0;
+    public $danaHarianSum = 0;
+    public $danaHarianColor = 'text-error';
+    public $dailyAverage = 0;
+    public $investasiSum = 0;
+    public $investasiColor = 'text-slate-400';
+    public $bitcoinSum = 0;
+    public $portofolioSum = 0;
+    public $portofolioColor = 'text-error';
+    public $portofolioTooltip = 'Bad Job...';
+    public $selisihSum = 0;
+    public $selisihColor = 'text-error';
+    public $persentaseSum = 0;
+    public array $myChart = [];
     public $headerInvestasis = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
@@ -37,28 +60,24 @@ class Dashboard extends Component
         ['key' => 'type', 'label' => 'Tipe', 'class' => 'hidden sm:table-cell'],
         ['key' => 'description', 'label' => 'Keterangan'],
     ];
-    public ?int $bitcoinIdr = null;
-    public $danaDaruratSum = 0;
-    public $danaDaruratColor = 'text-error';
-    public $idealEmergency = 0;
-    public $danaHarianSum = 0;
-    public $danaHarianColor = 'text-error';
-    public $dailyAverage = 0;
-    public $investasiSum = 0;
-    public $investasiColor = 'text-slate-400';
-    public $bitcoinSum = 0;
-    public $portofolioSum = 0;
-    public $portofolioColor = 'text-error';
-    public $portofolioTooltip = 'Bad Job...';
-    public $selisihSum = 0;
-    public $selisihColor = 'text-error';
-    public $persentaseSum = 0;
-    public array $myChart = [];
-
     // Lifecycle mount: load data saat komponen diinisialisasi
     public function mount(): void
     {
+        $this->user = Auth::user();
+        $this->setUserStatus();
         $this->loadDashboardData();
+    }
+    private function setUserStatus(): void
+    {
+        $now = now();
+
+        $premiumUntil = $this->user?->premium_until
+            ? Carbon::parse($this->user->premium_until)
+            : null;
+
+        $this->isStillPremium = $premiumUntil && $premiumUntil->gt($now);
+        $this->isFreeTrial = !$premiumUntil && $this->user?->created_at?->gte($now->subDays(7));
+        $this->isFree = !$this->isStillPremium && !$this->isFreeTrial;
     }
     // Method untuk update data dashboard (dipanggil via polling)
     public function updateDashboard(): void

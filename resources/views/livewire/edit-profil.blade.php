@@ -8,7 +8,7 @@
 
       <!-- Form Actions -->
       <x-slot:actions>
-        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" :link="route('profil')" />
+        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" link="/auth/profil" />
         <x-button label="Ubah" icon="lucide.edit" class="btn-primary btn-sm" type="submit" spinner="updateProfil" />
       </x-slot:actions>
     </x-form>

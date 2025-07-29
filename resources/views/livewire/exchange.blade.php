@@ -4,7 +4,7 @@
       <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam dan Exchange . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
-      <x-button icon="lucide.plus" class="btn-sm btn-ghost" :link="route('tambah-exchange')" />
+      <x-button icon="lucide.plus" class="btn-sm btn-ghost" link="/auth/exchange/tambah-exchange" />
     </x-slot:actions>
   </x-header>
 

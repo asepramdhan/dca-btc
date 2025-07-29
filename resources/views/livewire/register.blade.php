@@ -5,7 +5,7 @@
         <div class="flex justify-between w-full">
           Formulir Pendaftaran
           <!-- Tombol kembali ke halaman utama -->
-          <x-button icon="lucide.house" class="btn-circle btn-ghost" :link="route('home')" />
+          <x-button icon="lucide.house" class="btn-circle btn-ghost" link="/" />
         </div>
       </x-slot:title>
 
@@ -18,7 +18,7 @@
 
         <x-slot:actions separator>
           <div class="flex justify-between w-full">
-            <x-button label="Masuk" icon="lucide.user-circle-2" color="neutral" :link="route('login')" />
+            <x-button label="Masuk" icon="lucide.user-circle-2" color="neutral" link="/guest/login" />
             <x-button label="Daftar" icon="lucide.user-pen" class="btn-primary" type="submit" spinner="register" />
           </div>
         </x-slot:actions>

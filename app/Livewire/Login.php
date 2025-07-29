@@ -30,12 +30,12 @@ class Login extends Component
             // Verifikasi password
             if ($user && Hash::check($dataValid['password'], $user->password)) {
                 Auth::login($user);
-                $this->miniToast('Login Berhasil', redirectTo: route('dashboard'));
+                $this->miniToast('Login Berhasil', redirectTo: '/auth/dashboard');
             } else {
-                $this->miniToast('Username, E-mail atau Password Salah', type: 'error', timeout: 3000);
+                $this->miniToast('Username, E-mail atau Password Salah', 'error', timeout: 3000);
             }
         } else {
-            $this->miniToast('Akun Tidak Ditemukan', type: 'error');
+            $this->miniToast('Akun Tidak Ditemukan', 'error');
         }
     }
     public function render()

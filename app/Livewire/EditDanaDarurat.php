@@ -36,7 +36,7 @@ class EditDanaDarurat extends Component
         ]);
         $dataValid['user_id'] = Auth::user()->id;
         $this->emergency->update($dataValid);
-        $this->miniToast('Dana Darurat Berhasil Diubah', redirectTo: route('dana-darurat'));
+        $this->miniToast('Dana Darurat Berhasil Diubah', redirectTo: "/auth/dana-darurat");
     }
     public function render()
     {

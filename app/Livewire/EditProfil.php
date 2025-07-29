@@ -18,7 +18,7 @@ class EditProfil extends Component
     public function updateProfil(): void
     {
         $this->updateData();
-        $this->miniToast('Profil berhasil diubah', redirectTo: route('profil'));
+        $this->miniToast('Profil berhasil diubah', redirectTo: '/auth/profil');
     }
     private function updateData()
     {

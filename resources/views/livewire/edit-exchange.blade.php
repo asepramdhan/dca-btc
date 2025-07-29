@@ -10,7 +10,7 @@
 
       <!-- Form Actions -->
       <x-slot:actions>
-        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" :link="route('exchange')" />
+        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" link="/auth/exchange" />
         <x-button label="Ubah" icon="lucide.edit" class="btn-primary btn-sm" type="submit" spinner="editExchange" />
       </x-slot:actions>
     </x-form>

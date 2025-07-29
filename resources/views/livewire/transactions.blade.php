@@ -1,4 +1,5 @@
-<div>
+{{-- wire:poll.5s={{ $shouldPoll ? 'checkStatuses' : '' }} --}}
+<div wire:poll.900s="checkExpiredTransactions">
   <div x-data="{
     isPaying: false,
     init() {
@@ -81,7 +82,7 @@
             'Success' => 'badge-success badge-soft',
             'Pending' => 'badge-warning badge-soft',
             'Failed' => 'badge-destructive badge-soft',
-            'expired' => 'badge-muted badge-soft',
+            'Expired' => 'badge-muted badge-soft', // Ini akan digunakan untuk status 'expire'
             default => 'badge-muted badge-soft',
         }" />
       @endscope
@@ -93,7 +94,7 @@
       @scope('actions', $transaction)
       @if ($transaction->status === 'pending')
       <div class="gap-1 flex">
-        <x-button label="Lanjutkan Pembayaran" icon="lucide.qr-code" class="btn-sm btn-warning" wire:click="pay({{ $transaction->id }})" spinner />
+        <x-button label="Lanjutkan Pembayaran" icon="lucide.qr-code" class="btn-sm btn-warning" wire:click="lanjutBayar({{ $transaction->id }})" spinner />
       </div>
       @endif
       @endscope

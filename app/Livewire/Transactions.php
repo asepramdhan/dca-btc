@@ -9,144 +9,117 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Midtrans\Config;
 use Midtrans\Snap;
-use Midtrans\Transaction as MidtransTransaction;
+// Tidak perlu `use Midtrans\Transaction as MidtransTransaction;` jika hanya pakai Snap
 
 class Transactions extends Component
 {
     use MiniToast;
+
     public $user;
+    // Durasi kedaluwarsa dalam jam (sesuai aturan Midtrans, default 24 jam)
+    // public int $expiryDurationInHours = 1;
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal & Waktu'],
-        ['key' => 'package.name', 'label' => 'Nama Paket'], // asumsi relasi package
+        ['key' => 'package.name', 'label' => 'Nama Paket'],
         ['key' => 'order_id', 'label' => 'ID Pesanan'],
         ['key' => 'payment_type', 'label' => 'Tipe Pembayaran'],
         ['key' => 'status', 'label' => 'Status'],
         ['key' => 'amount', 'label' => 'Jumlah'],
     ];
+
     public function mount(): void
     {
         $this->user = Auth::user();
+        // Panggil method untuk memeriksa status setiap kali komponen dimuat
+        $this->checkExpiredTransactions();
     }
-    public function pay($id): void
+    /**
+     * 💡 Method baru untuk memeriksa dan update transaksi yang kedaluwarsa.
+     */
+    public function checkExpiredTransactions(): void
     {
-        // ✅ Tambahkan ini di atas sebelum Snap/status dipanggil
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$clientKey = config('midtrans.client_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
+        $userId = Auth::id();
+        $now = Carbon::now();
+        // --- Logika untuk QRIS (Expired dalam 15 Menit) ---
+        $qrisExpiryTime = $now->copy()->subMinutes(15);
+        Transaction::where('user_id', $userId)
+            ->where('status', 'pending')
+            ->where('payment_type', 'qris') // Hanya untuk transaksi QRIS
+            ->where('created_at', '<', $qrisExpiryTime)
+            ->update(['status' => 'expire']);
+        // --- Logika untuk Pembayaran Lainnya (Expired dalam 24 Jam) ---
+        $otherPaymentExpiryTime = $now->copy()->subHours(24);
+        Transaction::where('user_id', $userId)
+            ->where('status', 'pending')
+            ->where(function ($query) {
+                $query->where('payment_type', '!=', 'qris') // Untuk pembayaran selain QRIS
+                    ->orWhereNull('payment_type');       // atau yang belum memilih metode pembayaran
+            })
+            ->where('created_at', '<', $otherPaymentExpiryTime)
+            ->update(['status' => 'expire']);
+    }
+    public function lanjutBayar($id): void
+    {
         $transaction = Transaction::findOrFail($id);
-        dd($transaction);
+        $snapToken = $transaction->snap_token;
 
-        // ✅ Tambahan: cek status terbaru dari Midtrans
-        if ($transaction->snap_token) {
+        // 1. Validasi status transaksi
+        if ($transaction->status !== 'pending') {
+            $this->miniToast('Transaksi ini sudah tidak bisa dilanjutkan.', 'warning');
+            return;
+        }
+
+        // 2. Jika token belum ada, buat baru
+        if (!$snapToken) {
+            // Konfigurasi Midtrans
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = config('midtrans.is_production');
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
             try {
-                $status = MidtransTransaction::status($transaction->order_id);
-                $transactionStatus = $status['transaction_status'];
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => $transaction->order_id,
+                        'gross_amount' => $transaction->amount,
+                    ],
+                    'customer_details' => [
+                        'first_name' => $this->user->name,
+                        'email' => $this->user->email,
+                    ],
+                    // --- TAMBAHKAN BAGIAN INI ---
+                    'callbacks' => [
+                        // 'finish' => url('/transaksi/finish/' . $transaction->order_id), // Opsional, untuk redirect browser setelah sukses
+                        // 'error' => url('/transaksi/error/' . $transaction->order_id),   // Opsional, untuk redirect browser setelah error
+                        // 'pending' => url('/transaksi/pending/' . $transaction->order_id), // Opsional, untuk redirect browser setelah pending
+                        // 'notification' => url('/api/midtrans-webhook'), // <<--- INI YANG PALING PENTING UNTUK SERVER-TO-SERVER
+                    ],
+                ];
 
-                if (in_array($transactionStatus, ['settlement', 'capture'])) {
-                    $transaction->update(['status' => 'success']);
+                $snapToken = Snap::getSnapToken($params);
 
-                    // ✅ Upgrade akun user ke premium
-                    $user = $transaction->user;
-                    $user->update([
-                        'account_type' => 'premium',
-                        'premium_until' => Carbon::now()->addDays($user->package->duration),
-                    ]);
-
-                    // ✅ Jangan lanjut ke popup, langsung redirect ke dashboard
-                    $this->miniToast('Transaksi berhasil. Akun Anda sudah premium.', timeout: 3000, redirectTo: '/auth/dashboard');
-                    return; // ⬅️ INI PENTING AGAR SKIP BAGIAN SNAP POPUP
-                }
-
-                if (in_array($transactionStatus, ['expire', 'cancel'])) {
-                    $transaction->update(['status' => 'expired']);
-                    $this->miniToast('Transaksi dibatalkan.');
-                    return;
-                }
-
-                // Jika masih pending, lanjut ke Snap popup
+                // Simpan token ke database agar tidak buat ulang
+                $transaction->update(['snap_token' => $snapToken]);
             } catch (\Exception $e) {
-                $this->dispatch('console-log', [
-                    'message' => 'Midtrans Error: ' . $e->getMessage(),
-                ]);
-                logger()->error('Gagal cek status Midtrans: ' . $e->getMessage());
-                // ❗ Tambahkan return agar tidak lanjut ke bawah
-                $this->miniToast('Gagal cek status transaksi. Coba lagi nanti.', 'error', timeout: 3000);
+                $this->miniToast("Gagal membuat token pembayaran: {$e->getMessage()}", 'error');
                 return;
             }
         }
 
-        // 🟡 Token belum ada, buat dulu
-        if (!$transaction->snap_token) {
-            $params = [
-                'transaction_details' => [
-                    'order_id' => $transaction->order_id,
-                    'gross_amount' => $transaction->amount,
-                ],
-                'customer_details' => [
-                    'first_name' => $transaction->user->name,
-                    'email' => $transaction->user->email,
-                ],
-            ];
-
-            $snapToken = Snap::getSnapToken($params);
-
-            $transaction->update([
-                'snap_token' => $snapToken,
-            ]);
-        } else {
-            $snapToken = $transaction->snap_token;
-        }
-
-        // ⏩ Kirim ke browser untuk tampilkan popup Snap
+        // 3. Kirim token ke frontend untuk membuka popup pembayaran
         $this->dispatch('snap-token-received', token: $snapToken);
     }
-    public function checkStatuses(): void
-    {
-        // ✅ Tambahan: cek status terbaru dari Midtrans
 
-        $pending = Transaction::where('user_id', Auth::id())
-            ->where('status', 'pending')
-            ->whereNotNull('snap_token')
-            ->get();
-
-        foreach ($pending as $trx) {
-            try {
-                // Ambil status terbaru dari Midtrans
-                $status = MidtransTransaction::status($trx->order_id);
-
-                $midtransStatus = $status['transaction_status'];
-                $mappedStatus = match ($midtransStatus) {
-                    'settlement', 'capture' => 'success',
-                    'deny', 'cancel', 'expire' => 'expired',
-                    default => 'pending',
-                };
-
-                // Update status jika berubah
-                if ($trx->status !== $mappedStatus) {
-                    $trx->update([
-                        'status' => $mappedStatus,
-                        'payment_type' => $status['payment_type'] ?? $trx->payment_type,
-                        'transaction_id' => $status['transaction_id'] ?? $trx->transaction_id,
-                        'raw_response' => json_encode($status),
-                    ]);
-                }
-            } catch (\Exception $e) {
-                // Fallback: jika tidak bisa akses Midtrans, dan sudah >10 menit → expired
-                if ($trx->created_at->diffInMinutes(now()) >= 10) {
-                    $trx->update(['status' => 'expired']);
-                }
-
-                logger()->error('Midtrans status check failed: ' . $e->getMessage());
-            }
-        }
-    }
-    public function handlePayment($result): void
+    // ✅ Aktifkan kembali method ini untuk menangani callback dari Midtrans
+    public function handlePayment(array $result): void
     {
         $trx = Transaction::where('order_id', $result['order_id'])->first();
+
+        if (!$trx) {
+            $this->miniToast('Transaksi tidak ditemukan.', 'error');
+            return;
+        }
 
         $trx->update([
             'transaction_id' => $result['transaction_id'],
@@ -155,20 +128,26 @@ class Transactions extends Component
         ]);
 
         if ($trx->status === 'settlement' || $trx->status === 'capture') {
+            // Contoh: Logika setelah pembayaran sukses (misal: update status premium user)
             $this->user->update([
                 'account_type' => 'premium',
                 'premium_until' => Carbon::now()->addDays($trx->package->duration),
             ]);
 
-            $this->miniToast('Pembayaran berhasil.', redirectTo: '/auth/dashboard');
+            $this->miniToast('Pembayaran berhasil!', 'success');
+            $this->dispatch('refresh-page'); // Opsional: kirim event untuk refresh halaman jika perlu
         } else {
-            $this->miniToast('Lanjutkan pembayaran di menu transaksi', 'info', timeout: 3000, redirectTo: '/auth/transactions');
+            $this->miniToast('Lanjutkan pembayaran Anda.', 'info', timeout: 4000);
         }
     }
+
     public function render()
     {
         return view('livewire.transactions', [
-            'transactions' => Transaction::where('user_id', Auth::user()->id)->where('payment_type', '!=', null)->latest()->paginate(10),
+            'transactions' => Transaction::where('user_id', Auth::id())
+                ->whereNotNull('payment_type') // Asumsi Anda hanya mau menampilkan yg sudah ada interaksi midtrans
+                ->latest()
+                ->paginate(10),
         ]);
     }
 }

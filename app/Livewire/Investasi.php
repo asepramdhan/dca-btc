@@ -27,23 +27,6 @@ class Investasi extends Component
         ['key' => 'type', 'label' => 'Tipe'],
         ['key' => 'description', 'label' => 'Keterangan'],
     ];
-    // Breadcrumbs configuratio
-    public $breadcrumbs = [
-        [
-            'link' => '/auth/dashboard',
-            'icon' => 'lucide.layout-dashboard',
-        ],
-        [
-            'link' => '/auth/investasi',
-            'label' => 'Investasi',
-            'icon' => 'lucide.vault',
-        ],
-        [
-            'link' => '/auth/investasi/tambah-investasi',
-            'label' => 'Tambah Investasi',
-            'icon' => 'lucide.circle-fading-plus',
-        ],
-    ];
     public function mount(): void
     {
         // Simpan ID user saat ini agar tidak memanggil Auth berkali-kali
@@ -63,10 +46,7 @@ class Investasi extends Component
     {
         Dca::find($this->selectedId)?->delete();
         $this->deleteModal = false;
-        $this->miniToast(
-            type: 'success',
-            title: 'Data berhasil dihapus.',
-        );
+        $this->miniToast('Data berhasil dihapus.');
     }
     public function updatedSearch()
     {

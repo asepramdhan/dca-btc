@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -20,13 +21,16 @@ class Transaction extends Model
         return $this->belongsTo(Package::class);
     }
     // 
-    public function getStatusLabelAttribute(): string
+    public function statusLabel(): Attribute
     {
-        return match (Str::lower($this->status)) {
-            'settlement', 'capture' => 'Success',
-            'pending' => 'Pending',
-            'deny', 'cancel', 'expire' => 'Failed',
-            default => Str::ucfirst($this->status),
-        };
+        return Attribute::make(
+            get: fn() => match ($this->status) {
+                'pending' => 'Pending',
+                'settlement', 'capture' => 'Success',
+                'deny', 'failure' => 'Failed',
+                'expire', 'cancel' => 'Expired', // ✅ Tambahkan 'expire' di sini
+                default => ucfirst($this->status ?? 'N/A'),
+            },
+        );
     }
 }

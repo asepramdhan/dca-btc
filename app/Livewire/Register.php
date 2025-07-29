@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use App\Traits\MiniToast;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
@@ -31,7 +32,7 @@ class Register extends Component
         ]);
         $dataValid['password'] = Hash::make($dataValid['password']);
         User::create($dataValid);
-        $this->miniToast('Register Berhasil', redirectTo: route('login'));
+        $this->miniToast('Register Berhasil', redirectTo: '/guest/login');
     }
     public function render()
     {

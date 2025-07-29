@@ -10,7 +10,7 @@
 
     <!-- Brand -->
     <div class="hidden lg:block">
-      <a href="{{ route('home') }}" wire:navigate>
+      <a href="/" wire:navigate>
         <span class="font-bold">DCA-BTC</span>
       </a>
     </div>
@@ -19,8 +19,8 @@
   <!-- Right side actions -->
   <x-slot:actions>
     @guest
-    <x-button label="Daftar" icon="lucide.user-pen" :link="route('register')" class="btn-ghost btn-sm" responsive />
-    <x-button label="Masuk" icon="lucide.user-circle-2" :link="route('login')" class="btn-ghost btn-sm" responsive />
+    <x-button label="Daftar" icon="lucide.user-pen" link="/guest/register" class="btn-ghost btn-sm" responsive />
+    <x-button label="Masuk" icon="lucide.user-circle-2" link="/guest/login" class="btn-ghost btn-sm" responsive />
     @else
     @unless(request()->is('/'))
     <livewire:btc-price />
@@ -36,8 +36,8 @@
     @endunless
     @if(request()->is('/'))
     <x-dropdown label="Hai {{ Str::title(auth()->user()->name) }}" class="btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" right>
-      <x-menu-item title="Dashboard" icon="lucide.layout-dashboard" class="text-secondary" icon-classes="text-secondary" :link="route('dashboard')" />
-      <x-menu-item title="Pengaturan" icon="lucide.settings-2" :link="route('profil')" />
+      <x-menu-item title="Dashboard" icon="lucide.layout-dashboard" class="text-secondary" icon-classes="text-secondary" link="/auth/dashboard" />
+      <x-menu-item title="Pengaturan" icon="lucide.settings-2" link="/auth/profil" />
 
       <x-menu-separator />
 

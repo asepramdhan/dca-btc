@@ -64,7 +64,7 @@ class EditInvestasi extends Component
         $quantity = $data['amount'] / $data['price'];
         $data['quantity'] = $quantity * (1 - $fee);
         $this->dca->update($data);
-        $this->miniToast(type: 'success', title: 'Dana Investasi Diubah.', redirectTo: route('investasi'));
+        $this->miniToast(type: 'success', title: 'Dana Investasi Diubah.', redirectTo: '/auth/investasi');
     }
     public function render()
     {

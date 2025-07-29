@@ -21,10 +21,10 @@ name('home');
       <!-- Tombol CTA -->
       <div class="space-x-4">
         @guest
-        <x-button label="Mulai Investasi" class="btn-primary" icon="lucide.vault" :link="route('register')" />
-        <x-button label="Masuk" class="btn-ghost" icon="lucide.user-circle-2" :link="route('login')" />
+        <x-button label="Mulai Investasi" class="btn-primary" icon="lucide.vault" link="/guest/register" />
+        <x-button label="Masuk" class="btn-ghost" icon="lucide.user-circle-2" link="/guest/login" />
         @else
-        <x-button label="Dashboard" class="btn-primary" icon="lucide.layout-dashboard" :link="route('dashboard')" />
+        <x-button label="Dashboard" class="btn-primary" icon="lucide.layout-dashboard" link="/auth/dashboard" />
         @endguest
       </div>
 

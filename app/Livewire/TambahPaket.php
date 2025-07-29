@@ -22,11 +22,7 @@ class TambahPaket extends Component
 
         $this->reset('name', 'price', 'description', 'duration');
         $this->duration = '30';
-        $this->miniToast(
-            type: 'success',
-            title: 'Paket Berhasil Ditambahkan. Silakan tambah lagi.',
-            timeout: 4000, // dalam milidetik, misal 5 detik
-        );
+        $this->miniToast('Paket Berhasil Ditambahkan. Silakan tambah lagi.', timeout: 4000);
         // Dispatch event untuk autofocus kembali
         // $this->dispatch('focus-jumlah');
     }
@@ -34,11 +30,7 @@ class TambahPaket extends Component
     {
         $this->simpanData();
 
-        $this->miniToast(
-            type: 'success',
-            title: 'Paket Ditambahkan.',
-            redirectTo: '/admin/paket',
-        );
+        $this->miniToast('Paket Ditambahkan.', redirectTo: '/admin/paket');
     }
     private function simpanData(): void
     {

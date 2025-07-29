@@ -23,11 +23,7 @@ class TambahDanaDarurat extends Component
 
         $this->reset('amount', 'description', 'type');
         $this->type = 'pemasukan';
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Darurat Ditambahkan. Silakan tambah lagi.',
-            timeout: 4000, // dalam milidetik, misal 5 detik
-        );
+        $this->miniToast('Dana Darurat Ditambahkan. Silakan tambah lagi.', timeout: 4000);
         // Dispatch event untuk autofocus kembali
         $this->dispatch('focus-jumlah');
     }
@@ -35,11 +31,7 @@ class TambahDanaDarurat extends Component
     {
         $this->simpanDana();
 
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Darurat Ditambahkan.',
-            redirectTo: route('dana-darurat'),
-        );
+        $this->miniToast('Dana Darurat Ditambahkan.', redirectTo: '/auth/dana-darurat');
     }
     private function simpanDana(): void
     {

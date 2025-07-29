@@ -1,8 +1,4 @@
 <div>
-  @php
-  $user = auth()->user();
-  $isPremium = $user?->premium_until;
-  @endphp
   <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200 lg:bg-inherit" collapse-text="Tutup" collapse-icon="lucide.chevron-right" open-collapse-icon="lucide.chevron-left" right>
 
     <!-- User -->
@@ -17,11 +13,16 @@
       <x-slot:sub-value>
         {{ $user->email }}
         <div>
-          @if($isPremium)
+          @if ($isStillPremium)
           <x-badge value="Premium" class="badge-primary badge-soft badge-sm" />
-          <span class="text-xs">{!! $getPremiumStatus($user) !!}</span>
-          @else
-          <x-badge value="Free" class="badge-soft badge-sm" />
+          <span class="text-xs">{{ $premiumStatus }}</span>
+
+          @elseif ($isFreeTrial)
+          <x-badge value="Free Trial" class="badge-info badge-soft badge-sm" />
+          <span class="text-xs">{{ $premiumStatus }}</span>
+
+          @elseif ($isFree)
+          <x-badge value="Free" class="badge-muted badge-soft badge-sm" />
           <x-button label="Upgrade" class="btn-ghost btn-sm text-blue-500 hover:bg-transparent hover:shadow-none hover:border-transparent" link="/auth/upgrade" no-wire-navigate />
           @endif
         </div>
@@ -44,6 +45,7 @@
         <x-menu-item title="Exchange" icon="lucide.repeat" :link="route('exchange')" />
         <x-menu-item title="Profil" icon="lucide.user-circle" :link="route('profil')" />
         <x-menu-item title="PIN" icon="lucide.key" :link="route('pin')" />
+        <x-menu-item title="Reset Password" icon="lucide.lock-keyhole" :link="route('reset-password')" />
       </x-menu-sub>
       @admin
 

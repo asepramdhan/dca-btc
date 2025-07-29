@@ -12,7 +12,7 @@
 
       <!-- Form Actions -->
       <x-slot:actions>
-        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" :link="route('dana-darurat')" />
+        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" link="/auth/dana-darurat" />
         <x-button label="Tambah Lagi" icon="lucide.plus" class="btn-success btn-sm" wire:click="tambahLagi" spinner />
         <x-button label="Tambah" icon="lucide.circle-fading-plus" class="btn-primary btn-sm" wire:click="tambahDanKembali" spinner />
       </x-slot:actions>

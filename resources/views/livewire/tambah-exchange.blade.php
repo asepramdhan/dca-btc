@@ -10,7 +10,7 @@
       <x-input label="Fee Jual" wire:model="fee_sell" placeholder="0.00%" icon="lucide.trending-up" inline />
       <!-- Form Actions -->
       <x-slot:actions>
-        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" :link="route('exchange')" />
+        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" link="/auth/exchange" />
         <x-button label="Tambah Lagi" icon="lucide.plus" class="btn-success btn-sm" wire:click="tambahLagi" spinner />
         <x-button label="Tambah" icon="lucide.circle-fading-plus" class="btn-primary btn-sm" wire:click="tambahDanKembali" spinner />
       </x-slot:actions>

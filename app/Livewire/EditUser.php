@@ -21,7 +21,7 @@ class EditUser extends Component
     {
         $this->validasiUser();
         $this->updateData();
-        $this->miniToast('User berhasil diubah', redirectTo: route('admin.user'));
+        $this->miniToast('User berhasil diubah', redirectTo: '/admin/users');
     }
     private function validasiUser(): void
     {

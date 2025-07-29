@@ -23,11 +23,7 @@ class TambahDanaHarian extends Component
 
         $this->reset('amount', 'description', 'type');
         $this->type = 'pemasukan';
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Harian Ditambahkan. Silakan tambah lagi.',
-            timeout: 4000, // dalam milidetik, misal 5 detik
-        );
+        $this->miniToast('Dana Harian Ditambahkan. Silakan tambah lagi.', timeout: 4000);
         // Dispatch event untuk autofocus kembali
         $this->dispatch('focus-jumlah');
     }
@@ -35,11 +31,7 @@ class TambahDanaHarian extends Component
     {
         $this->simpanDana();
 
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Harian Ditambahkan.',
-            redirectTo: route('dana-harian'),
-        );
+        $this->miniToast('Dana Harian Ditambahkan.', redirectTo: '/auth/dana-harian');
     }
     private function simpanDana(): void
     {

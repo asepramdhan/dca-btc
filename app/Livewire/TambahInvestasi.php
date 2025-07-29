@@ -23,18 +23,6 @@ class TambahInvestasi extends Component
         ['id' => 'beli', 'name' => 'Beli'],
         ['id' => 'jual', 'name' => 'Jual'],
     ];
-    // Breadcrumbs configuratio
-    public $breadcrumbs = [
-        [
-            'link' => '/auth/dashboard',
-            'icon' => 'lucide.layout-dashboard',
-        ],
-        [
-            'link' => '/auth/investasi',
-            'label' => 'Investasi',
-            'icon' => 'lucide.vault',
-        ],
-    ];
     public function tambahLagi(): void
     {
         $this->simpanDana();
@@ -42,11 +30,7 @@ class TambahInvestasi extends Component
         $this->reset('created_at', 'exchange_id', 'amount', 'description', 'type', 'price');
         $this->exchange_id = 1;
         $this->type = 'beli';
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Investasi Ditambahkan. Silakan tambah lagi.',
-            timeout: 4000, // dalam milidetik, misal 5 detik
-        );
+        $this->miniToast('Dana Investasi Ditambahkan. Silakan tambah lagi.', timeout: 4000);
         // Dispatch event untuk autofocus kembali
         $this->dispatch('focus-jumlah');
     }
@@ -54,11 +38,7 @@ class TambahInvestasi extends Component
     {
         $this->simpanDana();
 
-        $this->miniToast(
-            type: 'success',
-            title: 'Dana Investasi Ditambahkan.',
-            redirectTo: route('investasi'),
-        );
+        $this->miniToast('Dana Investasi Ditambahkan.', redirectTo: '/auth/investasi');
     }
     private function simpanDana(): void
     {

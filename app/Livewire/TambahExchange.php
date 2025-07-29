@@ -16,11 +16,7 @@ class TambahExchange extends Component
         $this->simpanData();
 
         $this->reset('name', 'fee_buy', 'fee_sell');
-        $this->miniToast(
-            type: 'success',
-            title: 'Exchange Ditambahkan. Silakan tambah lagi.',
-            timeout: 4000, // dalam milidetik, misal 5 detik
-        );
+        $this->miniToast('Exchange Ditambahkan. Silakan tambah lagi.', timeout: 4000);
         // Dispatch event untuk autofocus kembali
         $this->dispatch('focus-name');
     }
@@ -28,11 +24,7 @@ class TambahExchange extends Component
     {
         $this->simpanData();
 
-        $this->miniToast(
-            type: 'success',
-            title: 'Exchange Ditambahkan.',
-            redirectTo: route('exchange'),
-        );
+        $this->miniToast('Exchange Ditambahkan.', redirectTo: '/auth/exchange');
     }
     private function simpanData(): void
     {

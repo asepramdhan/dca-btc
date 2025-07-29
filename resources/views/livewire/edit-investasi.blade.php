@@ -11,7 +11,7 @@
       <x-textarea label="Keterangan" wire:model="description" placeholder="Tulis sesuatu ..." rows="5" inline />
 
       <x-slot:actions>
-        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" :link="route('investasi')" />
+        <x-button label="Kembali" icon="lucide.chevron-left" class="btn-sm" link="/auth/investasi" />
         <x-button label="Ubah" icon="lucide.edit" class="btn-primary btn-sm" type="submit" spinner="editInvestasi" />
       </x-slot:actions>
     </x-form>

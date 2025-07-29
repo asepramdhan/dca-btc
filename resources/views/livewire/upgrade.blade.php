@@ -28,12 +28,15 @@
 
                     // Kirim ke Livewire
                     $wire.handlePayment(result);
-                },
-                onError: (result) => {
+                  },
+                  onError: (result) => {
                     console.error('❌ Error', result);
                     this.isPaying = false;
-                },
-                onClose: () => {
+                    
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                  },
+                  onClose: () => {
                     console.log('❌ Popup ditutup oleh user');
                     this.isPaying = false;
                 },
@@ -41,6 +44,12 @@
         });
     }
 }" x-init="init">
+
+  <div class="mb-6 w-full flex justify-center">
+    <x-alert icon="lucide.alert-triangle" class="alert-warning lg:h-15">
+      <strong>Agar pembayaran berhasil, jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat disini : / melalui whatsapp : 085-159-630-221</strong>
+    </x-alert>
+  </div>
 
   <h2 class="text-xl font-bold text-center text-gray-700 mb-6">Pilih Paket Premium</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-4">
@@ -138,6 +147,6 @@
     <p class="text-sm text-gray-500 mb-2">
       Belum ingin upgrade sekarang? Kamu bisa kembali dan lanjutkan aktivitas seperti biasa.
     </p>
-    <x-button label="Kembali ke Dashboard" :link="route('dashboard')" class="btn-outline btn-sm" />
+    <x-button label="Kembali ke Dashboard" link="/auth/dashboard" class="btn-outline btn-sm" />
   </div>
 </div>

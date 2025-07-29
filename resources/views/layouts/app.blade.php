@@ -29,7 +29,7 @@
 <body class="min-h-screen font-sans antialiased bg-base-200">
 
   <!-- The navbar with `sticky` and `full-width` -->
-  @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade'))
+  @unless(request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*'))
   <x-navbar />
   @endunless
 
@@ -38,13 +38,13 @@
 
     <!-- This is a sidebar that works also as a drawer on small screens -->
     <!-- Notice the `main-drawer` reference here -->
-    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade'))
+    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*'))
     <x-sidebar />
     @endunless
 
     <!-- The `$slot` goes here -->
     <x-slot:content>
-      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('auth/upgrade'))
+      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*'))
       <div class="bg-base-200 mb-4">
         <x-app-breadcrumbs :items="breadcrumbs()" />
       </div>

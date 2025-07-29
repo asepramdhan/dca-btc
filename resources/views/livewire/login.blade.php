@@ -5,7 +5,7 @@
         <div class="flex justify-between w-full">
           Masuk
           <!-- Tombol kembali ke halaman utama -->
-          <x-button icon="lucide.house" class="btn-circle btn-ghost" :link="route('home')" />
+          <x-button icon="lucide.house" class="btn-circle btn-ghost" link="/" />
         </div>
       </x-slot:title>
 
@@ -17,14 +17,14 @@
 
         <div class="text-right text-sm mt-1">
           <!-- Link lupa password -->
-          <a href="###" wire:navigate class="text-blue-600 hover:underline">
+          <a href="{{ route('lupa-password') }}" wire:navigate class="text-blue-600 hover:underline">
             Lupa Password?
           </a>
         </div>
 
         <x-slot:actions separator>
           <div class="flex justify-between w-full">
-            <x-button label="Daftar" icon="lucide.user-pen" color="neutral" :link="route('register')" />
+            <x-button label="Daftar" icon="lucide.user-pen" color="neutral" link="/guest/register" />
             <x-button label="Masuk" icon="lucide.user-circle-2" class="btn-primary" type="submit" spinner="login" />
           </div>
         </x-slot:actions>

@@ -30,7 +30,7 @@ class EditExchange extends Component
         ]);
         $data['user_id'] = Auth::user()->id;
         $this->exchange->update($data);
-        $this->miniToast('Exchange Berhasil Diubah', redirectTo: route('exchange'));
+        $this->miniToast('Exchange Berhasil Diubah', redirectTo: '/auth/exchange');
     }
     public function render()
     {
