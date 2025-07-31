@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Package;
 use App\Models\Transaction; // <-- Pastikan ini sudah di-use
+use App\Models\Voucher;
 use App\Traits\MiniToast;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +16,10 @@ use Midtrans\Snap;
 class Upgrade extends Component
 {
     use MiniToast;
-    public $user, $packages, $paketUser, $paket1, $paket2, $paket3;
+    public $user, $packages, $paketUser, $paket1, $paket2, $paket3, $voucher;
     public string $snapToken;
+    public bool $voucherModal = false;
+    public int|null $pendingUpdateVoucher = null;
 
     public function mount(): void
     {
@@ -55,32 +58,24 @@ class Upgrade extends Component
                 'first_name' => $this->user->name,
                 'email' => $this->user->email,
             ],
-            // --- TAMBAHKAN BAGIAN CALLBACKS INI ---
-            'callbacks' => [
-                // 'finish' => url('/transaksi/finish/' . $orderId), // Opsional
-                // 'error' => url('/transaksi/error/' . $orderId),   // Opsional
-                // 'pending' => url('/transaksi/pending/' . $orderId), // Opsional
-                // 'notification' => url('https://98205558276a.ngrok-free.app/api/midtrans-webhook'), // <--- INI PENTING!
-            ],
-            // --- AKHIR TAMBAHAN ---
         ];
 
         try {
             $snapToken = Snap::getSnapToken($params);
+            $this->dispatch('snap-token-received', token: $snapToken);
+            $this->snapToken = $snapToken;
 
             // Simpan transaksi pending di sini, setelah mendapatkan snapToken
-            Transaction::create([
-                'user_id' => $this->user->id,
-                'package_id' => $this->paketUser->id,
-                'package_name' => $this->paketUser->name, // Tambahkan ini agar tidak null
-                'order_id' => $orderId, // Gunakan orderId yang sudah dibuat
-                'status' => 'pending',
-                'amount' => $this->paketUser->price,
-                'snap_token' => $snapToken,
-            ]);
+            // Transaction::create([
+            //     'user_id' => $this->user->id,
+            //     'package_id' => $this->paketUser->id,
+            //     'package_name' => $this->paketUser->name, // Tambahkan ini agar tidak null
+            //     'order_id' => $orderId, // Gunakan orderId yang sudah dibuat
+            //     'status' => 'pending',
+            //     'amount' => $this->paketUser->price,
+            //     'snap_token' => $snapToken,
+            // ]);
 
-            $this->snapToken = $snapToken;
-            $this->dispatch('snap-token-received', token: $snapToken);
         } catch (\Exception $e) {
             $this->miniToast("Gagal membuat token pembayaran: " . $e->getMessage(), 'error');
             // Log the error for debugging
@@ -132,7 +127,43 @@ class Upgrade extends Component
             $this->miniToast('Lanjutkan pembayaran di menu transaksi', 'info', timeout: 3000, redirectTo: '/auth/transactions');
         }
     }
+    public function masukanVoucher(): void
+    {
+        $this->pendingUpdateVoucher = $this->user->id;
+        $this->voucherModal = true;
+    }
+    public function confirmVoucher(): void
+    {
+        $this->validasiData();
+        $this->voucherModal = false;
+        $this->miniToast('Akun berhasil diupgrade, Terimakasih', timeout: 3000, redirectTo: '/auth/dashboard');
+    }
+    private function validasiData(): void
+    {
+        $this->validate([
+            'voucher' => 'required|min:5',
+        ], messages: [
+            'voucher.required' => 'Voucher tidak boleh kosong.',
+            'voucher.min' => 'Voucher minimal 5 karakter.',
+        ]);
+        $dataVoucher = $this->user->load(['vouchers' => function ($query) {
+            $query->where('is_active', true)->where('code', $this->voucher);
+        }]);
 
+        if ($dataVoucher->vouchers->first()) {
+            $this->updateData();
+        } else {
+            $this->validate([
+                'voucher' => 'boolean',
+            ], messages: [
+                'voucher.boolean' => 'Voucher tidak valid.',
+            ]);
+        }
+    }
+    private function updateData(): void
+    {
+        // dd('oke');
+    }
     public function render()
     {
         return view('livewire.upgrade', [

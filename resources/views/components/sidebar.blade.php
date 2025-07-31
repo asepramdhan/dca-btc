@@ -1,9 +1,15 @@
 <div>
   <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200 lg:bg-inherit" collapse-text="Tutup" collapse-icon="lucide.chevron-right" open-collapse-icon="lucide.chevron-left" right>
 
+    <div class="flex items-center space-x-2 px-6 pt-4 lg:hidden">
+      <a href="/" wire:navigate class="flex items-center">
+        <img src="{{ asset('images/logo.png') }}" alt="dca-btc" class="h-10">
+      </a>
+    </div>
+
     <!-- User -->
     @if($user)
-    <x-list-item :item="$user" no-separator no-hover class="py-4">
+    <x-list-item :item="$user" no-separator no-hover class="py-2">
       <x-slot:avatar>
         <x-avatar :placeholder="Str::upper(Str::substr($user->name, 0, 1))" class="!w-10" />
       </x-slot:avatar>
@@ -32,6 +38,8 @@
       </x-slot:actions>
     </x-list-item>
     @endif
+
+    <x-menu-separator />
 
     <!-- Activates the menu item when a route matches the `link` property -->
     <x-menu activate-by-route>

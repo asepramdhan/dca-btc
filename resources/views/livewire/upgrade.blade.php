@@ -47,9 +47,11 @@
 
   <div class="mb-6 w-full flex justify-center">
     <x-alert icon="lucide.alert-triangle" class="alert-warning lg:h-15">
-      <strong>Agar pembayaran berhasil, jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat disini : / melalui whatsapp : 085-159-630-221</strong>
+      <strong>Agar pembayaran berhasil (selain voucher), jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat disini : / melalui whatsapp : 085-159-630-221</strong>
     </x-alert>
   </div>
+
+  <x-menu-separator />
 
   <h2 class="text-xl font-bold text-center text-gray-700 mb-6">Pilih Paket Premium</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-4">
@@ -145,8 +147,23 @@
 
   <div class="text-center mt-8 mb-4">
     <p class="text-sm text-gray-500 mb-2">
+      Masukan voucher dan upgrade sekarang!
+    </p>
+    <x-button label="Masukan Voucher" icon="lucide.ticket" wire:click="masukanVoucher" class="btn-success" spinner />
+    <p class="text-sm text-gray-500 mt-6">
+      Belum memiliki voucher? <a href="/auth/voucher" class="text-indigo-600 hover:underline">Beli sekarang dishopee</a>
+    </p>
+  </div>
+
+  <x-menu-separator />
+
+  <div class="text-center mt-10 mb-4">
+    <p class="text-sm text-gray-500 mb-2">
       Belum ingin upgrade sekarang? Kamu bisa kembali dan lanjutkan aktivitas seperti biasa.
     </p>
     <x-button label="Kembali ke Dashboard" link="/auth/dashboard" class="btn-outline btn-sm" />
   </div>
+
+  <!-- Modal for Voucher -->
+  <x-voucher-modal wireModel="voucherModal" voucherModel="voucher" title="Masukan Voucher" description="Masukan voucher dan upgrade sekarang!" submitLabel="Upgrade" submitAction="confirmVoucher" />
 </div>

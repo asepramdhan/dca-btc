@@ -11,7 +11,7 @@
     <!-- Brand -->
     <div class="hidden lg:block">
       <a href="/" wire:navigate>
-        <span class="font-bold">DCA-BTC</span>
+        <img src="{{ asset('images/logo.png') }}" alt="dca-btc" class="h-10">
       </a>
     </div>
   </x-slot:brand>

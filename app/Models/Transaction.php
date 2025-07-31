@@ -20,7 +20,13 @@ class Transaction extends Model
     {
         return $this->belongsTo(Package::class);
     }
-    // 
+    // Relasi Many-to-One: Banyak Transaksi menggunakan satu Voucher
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class);
+        // Laravel secara otomatis akan mencari foreign key 'voucher_id' di tabel 'transactions'
+        // dan local key 'id' di tabel 'vouchers'
+    }
     public function statusLabel(): Attribute
     {
         return Attribute::make(

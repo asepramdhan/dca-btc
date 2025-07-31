@@ -43,7 +43,7 @@
       </x-stat>
 
       <!-- Tombol muncul saat hover -->
-      <x-button label="Upgrade" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
+      <x-button label="Upgrade" class="btn-primary btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
     </div>
     @endif
 
@@ -217,7 +217,7 @@
     </div>
 
     <!-- Tombol muncul saat hover -->
-    <x-button label="Upgrade Premium 1.000/hari" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
+    <x-button label="Upgrade Premium" class="btn-primary btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
   </div>
 
   <div class="relative my-10 group overflow-auto">
@@ -374,7 +374,7 @@
     </div>
 
     <!-- Tombol muncul saat hover -->
-    <x-button label="Upgrade Premium 1.000/hari" class="btn-primary btn-sm btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
+    <x-button label="Upgrade Premium" class="btn-primary btn-soft absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:opacity-0 lg:group-hover:opacity-100 lg:transition lg:duration-300" link="/auth/upgrade" no-wire-navigate />
   </div>
   @endif
 </div>
