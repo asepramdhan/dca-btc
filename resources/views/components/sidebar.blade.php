@@ -48,6 +48,7 @@
       <x-menu-item title="Dana Darurat" icon="lucide.siren" :link="route('dana-darurat')" />
       <x-menu-item title="Dana Harian" icon="lucide.wallet" :link="route('dana-harian')" />
       <x-menu-item title="Transaksi" icon="lucide.receipt-text" link="/auth/transactions" />
+      <x-menu-item title="Voucher" icon="lucide.gift" link="/auth/voucher" />
       <!-- Pengaturan User -->
       <x-menu-sub title="Pengaturan" icon="lucide.settings">
         <x-menu-item title="Exchange" icon="lucide.repeat" :link="route('exchange')" />
@@ -74,6 +75,7 @@
       <x-menu-sub title="Paket & Transaksi" icon="lucide.credit-card">
         <x-menu-item title="Daftar Paket" icon="lucide.layers" link="/admin/paket" />
         <x-menu-item title="Transaksi" icon="lucide.receipt-text" link="/admin/transactions" />
+        <x-menu-item title="Voucher" icon="lucide.gift" link="/admin/voucher" />
       </x-menu-sub>
 
       <!-- ⚙️ Pengaturan Sistem -->

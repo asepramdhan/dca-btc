@@ -4,12 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Daily;
 use App\Traits\MiniToast;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class DanaHarian extends Component
 {
-    use MiniToast;
+    use MiniToast, WithPagination;
     public $search = '';
     public $danaHarianSum;
     public $deleteModal = false;
@@ -53,7 +54,7 @@ class DanaHarian extends Component
     public function render()
     {
         return view('livewire.dana-harian', [
-            'danaHarians' => Daily::where(function ($query) {
+            'danaHarians' => Daily::where('user_id', Auth::id())->where(function ($query) {
                 $query->where('user_id', Auth::user()->id);
                 if ($this->search) {
                     $query->whereDate('created_at', 'like', '%' . $this->search . '%')

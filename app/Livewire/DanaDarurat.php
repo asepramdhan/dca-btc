@@ -57,7 +57,7 @@ class DanaDarurat extends Component
     public function render()
     {
         return view('livewire.dana-darurat', [
-            'danaDarurats' => Emergency::where(function ($query) {
+            'danaDarurats' => Emergency::where('user_id', Auth::id())->where(function ($query) {
                 $query->where('user_id', Auth::user()->id);
                 if ($this->search) {
                     $query->whereDate('created_at', 'like', '%' . $this->search . '%')

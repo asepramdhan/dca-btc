@@ -6,10 +6,11 @@ use App\Models\Package;
 use App\Traits\MiniToast;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Paket extends Component
 {
-    use MiniToast;
+    use MiniToast, WithPagination;
     public string $pin = '';
     public bool $pinModal = false;
     public int|null $pendingDeleteId = null;

@@ -1,7 +1,7 @@
 <div>
   <x-header>
     <x-slot:middle class="!justify-end">
-      <x-input icon="lucide.search" placeholder="Cari Nama, Username, E-mail, Role, Tipe akun, Tanggal daftar, Terakhir diubah . . ." />
+      <x-input icon="lucide.search" placeholder="Cari Tanggal, Nama User, ID Pesanan dan Tipe Pembayaran . . ." wire:model.live='search' />
     </x-slot:middle>
   </x-header>
   <!-- Tabel data user -->

@@ -130,6 +130,7 @@
           <p>🚫 Tanpa iklan</p>
           <p>💸 Hemat hingga Rp61.000</p>
           <p>🎉 Prioritas dukungan</p>
+          <p>🔥 Gratis Bitcoin senilai Rp50.000 (akun indodax)</p>
         </div>
 
         <div class="mt-4 flex justify-between items-center">
@@ -151,7 +152,7 @@
     </p>
     <x-button label="Masukan Voucher" icon="lucide.ticket" wire:click="masukanVoucher" class="btn-success" spinner />
     <p class="text-sm text-gray-500 mt-6">
-      Belum memiliki voucher? <a href="/auth/voucher" class="text-indigo-600 hover:underline">Beli sekarang dishopee</a>
+      Belum memiliki voucher? <a href="https://shopee.co.id/dca_btc" target="_blank" class="text-indigo-600 hover:underline">Beli sekarang dishopee</a>
     </p>
   </div>
 

@@ -1,6 +1,6 @@
 <div>
   <!-- Tabel data user -->
-  <x-table :headers="$headers" :rows="$users" striped with-pagination>
+  <x-table :headers="$headers" :rows="$users" striped>
     <!-- Kolom nomor urut -->
     @scope('cell_id', $user)
     <strong>{{ $loop->iteration }}</strong>

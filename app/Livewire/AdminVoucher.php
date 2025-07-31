@@ -2,29 +2,30 @@
 
 namespace App\Livewire;
 
-use App\Models\Exchange as ExchangeModel;
+use App\Models\Voucher;
 use App\Traits\MiniToast;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Exchange extends Component
+class AdminVoucher extends Component
 {
     use MiniToast, WithPagination;
     public $search = '';
-    // Component state variables
     public string $pin = '';
     public bool $pinModal = false;
     public int|null $pendingDeleteId = null;
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
-        ['key' => 'name', 'label' => 'Nama Exchange'],
-        ['key' => 'fee_buy', 'label' => 'Fee Beli'],
-        ['key' => 'fee_sell', 'label' => 'Fee Jual'],
-        ['key' => 'user_id', 'label' => 'Pembuat'],
+        ['key' => 'user.name', 'label' => 'Pemilik'],
+        ['key' => 'package.name', 'label' => 'Paket'],
+        ['key' => 'code', 'label' => 'Kode Voucher'],
+        ['key' => 'usage_limit', 'label' => 'Limit'],
+        ['key' => 'used_count', 'label' => 'Penggunaan'],
+        ['key' => 'is_active', 'label' => 'Status'],
+        ['key' => 'updated_at', 'label' => 'Tgl Diubah'],
     ];
-    // Show PIN modal for delete confirmation
     public function confirmDelete(int $id): void
     {
         $this->pendingDeleteId = $id;
@@ -44,24 +45,27 @@ class Exchange extends Component
             return;
         }
         $this->deleteData();
-        $this->miniToast('Data berhasil dihapus', timeout: 3000);
+        $this->miniToast('Voucher berhasil dihapus!', timeout: 3000);
         $this->pinModal = false;
     }
-    private function deleteData(): void
+    private function deleteData()
     {
-        ExchangeModel::find($this->pendingDeleteId)->delete();
+        Voucher::findOrFail($this->pendingDeleteId)->delete();
     }
     public function render()
     {
-        return view('livewire.exchange', [
-            'exchanges' => ExchangeModel::with('user')->paginate(10),
-            'exchanges' => ExchangeModel::where(function ($query) {
+        return view('livewire.admin-voucher', [
+            'vouchers' => Voucher::where(function ($query) {
                 if ($this->search) {
                     $query->whereDate('created_at', 'like', '%' . $this->search . '%')
                         ->orWhereRaw("DATE_FORMAT(created_at, '%d-%m-%Y %H:%i') LIKE '%" . $this->search . "%'")
-                        ->orWhere('name', 'like', '%' . $this->search . '%');
+                        ->orWhereHas('user', function ($query) {
+                            $query->where('name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhere('code', 'like', '%' . $this->search . '%')
+                        ->orWhereRaw("DATE_FORMAT(updated_at, '%d-%m-%Y %H:%i') LIKE '%" . $this->search . "%'");
                 }
-            })->with('user')->paginate(10),
+            })->latest()->paginate(10),
         ]);
     }
 }

@@ -1,4 +1,3 @@
-{{-- wire:poll.5s={{ $shouldPoll ? 'checkStatuses' : '' }} --}}
 <div wire:poll.900s="checkExpiredTransactions">
   <div x-data="{
     isPaying: false,
@@ -51,7 +50,7 @@
 }" x-init="init">
     <x-header>
       <x-slot:middle class="!justify-end">
-        <x-input icon="lucide.search" placeholder="Cari Nama, Username, E-mail, Role, Tipe akun, Tanggal daftar, Terakhir diubah . . ." />
+        <x-input icon="lucide.search" placeholder="Cari Tanggal dan Tipe Pembayaran . . ." wire:model.live='search' />
       </x-slot:middle>
     </x-header>
     <!-- Tabel data user -->

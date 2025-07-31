@@ -7,15 +7,17 @@ use App\Traits\MiniToast;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Midtrans\Config;
 use Midtrans\Snap;
 // Tidak perlu `use Midtrans\Transaction as MidtransTransaction;` jika hanya pakai Snap
 
 class Transactions extends Component
 {
-    use MiniToast;
+    use MiniToast, WithPagination;
 
     public $user;
+    public $search = '';
     // Durasi kedaluwarsa dalam jam (sesuai aturan Midtrans, default 24 jam)
     // public int $expiryDurationInHours = 1;
     public $headers = [
@@ -88,13 +90,6 @@ class Transactions extends Component
                         'first_name' => $this->user->name,
                         'email' => $this->user->email,
                     ],
-                    // --- TAMBAHKAN BAGIAN INI ---
-                    'callbacks' => [
-                        // 'finish' => url('/transaksi/finish/' . $transaction->order_id), // Opsional, untuk redirect browser setelah sukses
-                        // 'error' => url('/transaksi/error/' . $transaction->order_id),   // Opsional, untuk redirect browser setelah error
-                        // 'pending' => url('/transaksi/pending/' . $transaction->order_id), // Opsional, untuk redirect browser setelah pending
-                        // 'notification' => url('/api/midtrans-webhook'), // <<--- INI YANG PALING PENTING UNTUK SERVER-TO-SERVER
-                    ],
                 ];
 
                 $snapToken = Snap::getSnapToken($params);
@@ -144,10 +139,14 @@ class Transactions extends Component
     public function render()
     {
         return view('livewire.transactions', [
-            'transactions' => Transaction::where('user_id', Auth::id())
-                ->whereNotNull('payment_type') // Asumsi Anda hanya mau menampilkan yg sudah ada interaksi midtrans
-                ->latest()
-                ->paginate(10),
+            'transactions' => Transaction::where('user_id', Auth::id())->whereNotNull('payment_type')->where(function ($query) {
+                $query->where('user_id', Auth::user()->id);
+                if ($this->search) {
+                    $query->whereDate('created_at', 'like', '%' . $this->search . '%')
+                        ->orWhereRaw("DATE_FORMAT(created_at, '%d-%m-%Y %H:%i') LIKE '%" . $this->search . "%'")
+                        ->orWhere('payment_type', 'like', '%' . $this->search . '%');
+                }
+            })->latest()->paginate(10),
         ]);
     }
 }

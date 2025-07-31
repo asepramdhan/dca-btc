@@ -7,10 +7,11 @@ use App\Traits\MiniToast;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Users extends Component
 {
-    use MiniToast;
+    use MiniToast, WithPagination;
     public $search = '';
     public string $pin = '';
     public bool $pinModal = false;

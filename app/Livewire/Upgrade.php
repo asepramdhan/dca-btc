@@ -147,10 +147,11 @@ class Upgrade extends Component
             'voucher.min' => 'Voucher minimal 5 karakter.',
         ]);
         $dataVoucher = $this->user->load(['vouchers' => function ($query) {
-            $query->where('is_active', true)->where('code', $this->voucher);
+            $query->where('is_active', true)->where('usage_limit', '>', 'used_count')->where('code', $this->voucher);
         }]);
 
         if ($dataVoucher->vouchers->first()) {
+            $this->pendingUpdateVoucher = $dataVoucher->vouchers->first()->id;
             $this->updateData();
         } else {
             $this->validate([
@@ -162,7 +163,24 @@ class Upgrade extends Component
     }
     private function updateData(): void
     {
-        // dd('oke');
+        $dataVoucher = $this->user->vouchers()->find($this->pendingUpdateVoucher)->load('package');
+        $dataVoucher->update([
+            'used_count' => $dataVoucher->used_count + 1,
+            'is_active' => false
+        ]);
+        $this->user->transactions()->create([
+            'package_id' => $dataVoucher->package_id,
+            'order_id' => uniqid('INV-'),
+            'voucher_id' => $dataVoucher->id,
+            'payment_type' => 'voucher',
+            'package_name' => $dataVoucher->package->name,
+            'amount' => $dataVoucher->package->price,
+            'status' => 'settlement'
+        ]);
+        $this->user->update([
+            'account_type' => 'premium',
+            'premium_until' => Carbon::now()->addDays((int) $dataVoucher->package->duration)
+        ]);
     }
     public function render()
     {

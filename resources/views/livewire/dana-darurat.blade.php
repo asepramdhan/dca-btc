@@ -1,18 +1,10 @@
 <div>
-  <x-header size="text-xl" separator>
-    <x-slot:title>
-      <a href="/auth/dana-darurat" wire:navigate>
-        <x-icon name="lucide.wallet" label="Dana Darurat" />
-      </a>
-    </x-slot:title>
-  </x-header>
-
   <x-header>
     <x-slot:middle class="!justify-end">
       <x-input icon="lucide.search" placeholder="Cari Tanggal, Bulan, Tahun, Jam, Tipe dan Keterangan . . ." wire:model.live='search' />
     </x-slot:middle>
     <x-slot:actions>
-      <x-button icon="o-plus" class="btn-sm btn-ghost" link="/auth/dana-darurat/tambah-dana-darurat" />
+      <x-button icon="lucide.plus" class="btn-sm btn-ghost" link="/auth/dana-darurat/tambah-dana-darurat" />
     </x-slot:actions>
   </x-header>
 

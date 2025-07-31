@@ -20,7 +20,7 @@ class Profil extends Component
     public function render()
     {
         return view('livewire.profil', [
-            'users' => User::where('id', Auth::user()->id)->latest()->paginate(10),
+            'users' => User::where('id', Auth::user()->id)->get(),
         ]);
     }
 }

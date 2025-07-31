@@ -55,7 +55,7 @@ class Investasi extends Component
     public function render()
     {
         return view('livewire.investasi', [
-            'investasis' => Dca::where(function ($query) {
+            'investasis' => Dca::where('user_id', Auth::id())->where(function ($query) {
                 $query->where('user_id', Auth::user()->id);
                 if ($this->search) {
                     $query->whereDate('created_at', 'like', '%' . $this->search . '%')
