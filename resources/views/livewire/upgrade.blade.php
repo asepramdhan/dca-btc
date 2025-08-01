@@ -47,7 +47,7 @@
 
   <div class="mb-6 w-full flex justify-center">
     <x-alert icon="lucide.alert-triangle" class="alert-warning lg:h-15">
-      <strong>Agar pembayaran berhasil (selain voucher), jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat disini : / melalui whatsapp : 085-159-630-221</strong>
+      <strong>Agar pembayaran berhasil (selain voucher), jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat <a href="/auth/user/chat" target="_blank" class="text-blue-500">disini</a></strong>
     </x-alert>
   </div>
 

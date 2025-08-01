@@ -25,7 +25,15 @@
     @unless(request()->is('/'))
     <livewire:btc-price />
     <div>
-      <x-button icon="lucide.message-circle-off" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" /> <!-- icon="lucide.message-circle" -->
+      @admin
+      <x-button icon="lucide.message-circle" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent indicator" link="/admin/chat" external>
+        <livewire:chat-notification-badge />
+      </x-button>
+      @else
+      <x-button icon="lucide.message-circle" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent indicator" link="/auth/user/chat" external>
+        <livewire:chat-notification-badge />
+      </x-button>
+      @endadmin
       <x-dropdown>
         <x-slot:trigger>
           <x-button icon="lucide.bell" class="btn-circle btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" /> <!-- icon="lucide.bell-dot" -->
