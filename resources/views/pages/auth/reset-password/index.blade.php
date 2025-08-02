@@ -6,7 +6,7 @@ name('reset-password');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Reset Password')">
   <div>
     <livewire:auth-reset-password />
   </div>

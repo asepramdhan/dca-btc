@@ -9,7 +9,7 @@
     @endunless
 
     <!-- Brand -->
-    <div class="hidden lg:block">
+    <div class="lg:block {{ request()->is('/') ? '' : 'hidden' }}">
       <a href="/" wire:navigate>
         <img src="{{ asset('images/logo.png') }}" alt="dca-btc" class="h-10">
       </a>

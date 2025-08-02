@@ -6,7 +6,7 @@ name('login');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Login')">
   <div>
     <livewire:login />
   </div>

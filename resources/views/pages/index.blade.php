@@ -6,7 +6,7 @@ name('home');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('WEB APP Untuk meyimpan data keuangan, dan membantu kamu nabung Bitcoin tanpa stres.')">
   <div class="-mt-5">
     <section class="min-h-screen bg-gradient-to-b from-base-100 to-base-200 flex flex-col items-center justify-center text-center px-6 py-12 space-y-8">
       <!-- Judul & Subjudul -->

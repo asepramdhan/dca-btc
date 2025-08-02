@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Transaksi') ">
   <div>
     <livewire:admin-transactions />
   </div>

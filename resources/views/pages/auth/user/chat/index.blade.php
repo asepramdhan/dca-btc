@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Chat') ">
   <div>
     <x-slot:header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">

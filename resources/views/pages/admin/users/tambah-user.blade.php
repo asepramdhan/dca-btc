@@ -6,7 +6,7 @@ name('tambah-user');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Tambah User') ">
   <div>
     <livewire:tambah-user />
   </div>

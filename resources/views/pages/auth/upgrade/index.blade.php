@@ -6,7 +6,7 @@ name('upgrade');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Upgrade') ">
   <div>
     <livewire:upgrade />
   </div>

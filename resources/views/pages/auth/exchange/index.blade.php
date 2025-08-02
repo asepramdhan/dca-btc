@@ -6,7 +6,7 @@ name('exchange');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Exchange')">
   <div>
     <livewire:exchange />
   </div>

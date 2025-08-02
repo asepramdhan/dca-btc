@@ -6,7 +6,7 @@ name('admin.users');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Users')">
   <div>
     <livewire:users />
   </div>

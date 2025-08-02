@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Edit Voucher') ">
   <div>
     <livewire:edit-voucher :voucher="$voucher" />
   </div>

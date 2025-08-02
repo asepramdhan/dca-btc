@@ -6,7 +6,7 @@ name('lupa-password');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Lupa Password')">
   <div>
     <livewire:lupa-password />
   </div>

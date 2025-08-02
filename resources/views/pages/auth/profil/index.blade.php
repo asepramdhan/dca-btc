@@ -6,7 +6,7 @@ name('profil');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Profil')">
   <div>
     <livewire:profil />
   </div>

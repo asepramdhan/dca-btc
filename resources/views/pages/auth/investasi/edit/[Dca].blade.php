@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Edit Investasi')">
   <div>
     <livewire:edit-investasi :dca="$dca" />
   </div>

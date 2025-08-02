@@ -18,9 +18,11 @@ class Maintenance extends Component
         'dana-darurat',
         'dana-harian',
         'transactions',
+        'voucher',
         'exchange',
         'profil',
         'pin',
+        'reset-password',
         'upgrade',
     ];
     // Inisialisasi data saat komponen dimount

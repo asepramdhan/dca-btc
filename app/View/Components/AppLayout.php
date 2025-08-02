@@ -9,11 +9,17 @@ use Illuminate\View\Component;
 class AppLayout extends Component
 {
     /**
+     * Properti publik untuk menyimpan judul.
+     * Ini akan secara otomatis diisi oleh nilai dari atribut :title
+     * saat memanggil komponen di Blade.
+     */
+    public string $title = '';
+    /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(string $title = '')
     {
-        //
+        $this->title = $title;
     }
 
     /**

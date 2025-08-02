@@ -6,7 +6,7 @@ name('tambah-dana-harian');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Tambah Dana Harian')">
   <div>
     <livewire:tambah-dana-harian />
   </div>

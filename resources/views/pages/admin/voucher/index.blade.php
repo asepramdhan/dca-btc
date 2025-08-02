@@ -6,7 +6,7 @@ name('admin.voucher');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Voucher') ">
   <div>
     <livewire:admin-voucher />
   </div>

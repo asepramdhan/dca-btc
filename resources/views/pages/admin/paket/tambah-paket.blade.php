@@ -6,7 +6,7 @@ name('tambah-paket');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Tambah Paket') ">
   <div>
     <livewire:tambah-paket />
   </div>

@@ -6,7 +6,7 @@ name('admin.maintenance');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Maintenance') ">
   <div>
     <livewire:maintenance />
   </div>

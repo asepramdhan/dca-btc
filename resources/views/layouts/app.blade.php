@@ -16,7 +16,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ isset($title) ? $title.' - '.config('app.name') : config('app.name') }}</title>
+  <title>{{ isset($title) ? config('app.name').' - '.$title : config('app.name') }}</title>
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -24,6 +24,21 @@
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
   <!-- Snap -->
   <script type="text/javascript" src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10783577109">
+  </script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'AW-10783577109');
+
   </script>
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200">

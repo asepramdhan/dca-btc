@@ -6,7 +6,7 @@ name('admin.paket');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Paket') ">
   <div>
     <livewire:paket />
   </div>

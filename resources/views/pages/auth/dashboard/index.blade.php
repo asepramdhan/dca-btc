@@ -6,7 +6,7 @@ name('dashboard');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Dashboard')">
   <div>
     <livewire:dashboard />
   </div>

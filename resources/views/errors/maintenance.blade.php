@@ -20,7 +20,7 @@
     </div>
 
     {{-- Judul Maintenance --}}
-    <h1 class="text-3xl font-bold text-warning">Website Sedang Maintenance</h1>
+    <h1 class="text-3xl font-bold text-warning">Halaman Sedang Maintenance</h1>
 
     {{-- Pesan penjelasan --}}
     <p class="text-gray-600 text-sm">
@@ -36,8 +36,14 @@
       </p>
       <p>
         <strong>Kontak:</strong>
-        <a href="mailto:support@dcabitcoin.my.id" class="text-blue-500 hover:underline">
-          support@dcabitcoin.my.id
+        <a href="###" class="text-blue-500 hover:underline">
+          {{-- support@dcabitcoin.my.id --}} -
+        </a>
+      </p>
+      <p>
+        <strong>Chat Admin:</strong>
+        <a href="/auth/user/chat" target="_blank" class="text-blue-500 hover:underline">
+          Klik disini
         </a>
       </p>
     </div>

@@ -6,7 +6,7 @@ name('pin');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Buat Pin')">
   <div>
     <livewire:pin />
   </div>

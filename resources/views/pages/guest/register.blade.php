@@ -6,7 +6,7 @@ name('register');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Register')">
   <div>
     <livewire:register />
   </div>

@@ -6,7 +6,7 @@ name('tambah-exchange');
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Tambah Exchange')">
   <div>
     <livewire:tambah-exchange />
   </div>

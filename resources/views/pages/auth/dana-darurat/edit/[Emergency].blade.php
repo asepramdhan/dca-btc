@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Edit Dana Darurat')">
   <div>
     <livewire:edit-dana-darurat :emergency="$emergency" />
   </div>

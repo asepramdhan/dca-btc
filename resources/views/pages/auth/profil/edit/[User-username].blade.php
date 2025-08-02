@@ -6,7 +6,7 @@ use function Laravel\Folio\name;
 
 ?>
 
-<x-app-layout>
+<x-app-layout :title="__('Halaman Edit Profil')">
   <div>
     <livewire:edit-profil :user="$user" />
   </div>
