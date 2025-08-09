@@ -23,11 +23,11 @@
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
   <!-- Snap -->
-  <script type="text/javascript" src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-  </script>
+  {{-- <script type="text/javascript" src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+  </script> --}}
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10783577109">
+  {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10783577109">
   </script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -40,6 +40,15 @@
     gtag('config', 'AW-10783577109');
 
   </script>
+  <!-- Event snippet for Kunjungan halaman conversion page -->
+  <script>
+    gtag('event', 'conversion', {
+      'send_to': 'AW-10783577109/0A4VCJWR8f0aEJWogZYo'
+      , 'value': 1.0
+      , 'currency': 'IDR'
+    });
+
+  </script> --}}
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200">
 

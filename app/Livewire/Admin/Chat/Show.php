@@ -18,7 +18,7 @@ class Show extends Component
     public int $lastKnownMessageId = 0; // ID pesan terakhir yang diproses
 
     // Properti untuk pagination
-    public int $perPage = 10; // Jumlah pesan awal yang akan dimuat
+    public int $perPage = 5; // Jumlah pesan awal yang akan dimuat
     public bool $hasMorePages = true; // Untuk melacak apakah ada pesan lebih lama
 
     protected $paginationTheme = 'none'; // Kita akan mengelola tombol/indikator "Load More" secara manual

@@ -79,6 +79,12 @@ name('home');
     <!-- Footer -->
     <footer class="bg-base-200 py-8 px-6 text-center text-sm text-gray-500 border-t">
       <div class="max-w-4xl mx-auto">
+        <p class="mb-2">
+          <strong class="text-primary underline"><i>DISCLAIMER</i></strong> : Website ini bukanlah platform trading. Web ini hanya membantu kamu nabung Bitcoin tanpa stres. dengan mencatatkan pembelian dan penjualan Bitcoin kamu di berbagai exchange, seperti Indodax, Pintu, Tokocrypto, dan sebagainya.
+        </p>
+        <p class="mb-6">
+          Didalam web ini kamu bisa melihat pertumbuhan portofolio kamu dari waktu ke waktu lewat grafik yang rapi, dengan harga bitcoin yang realtime. dan kamu juga bisa mencatat keuangan kamu seperti Dana Darurat, Dana Harian dan Jumlah Investasi.
+        </p>
         <p>&copy; 2022-{{ now()->year }} DCA-BTC. Semua hak dilindungi.</p>
         <div class="flex justify-center space-x-4 mt-2">
           <a href="###" target="_blank" class="hover:text-primary">Instagram</a>

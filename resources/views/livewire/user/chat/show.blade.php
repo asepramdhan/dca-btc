@@ -1,6 +1,10 @@
 <div>
   <x-header title="Chat dengan Admin" subtitle="Hubungi tim dukungan kami." separator />
 
+  <x-alert icon="lucide.alert-triangle" class="alert-info mb-4">
+    Fitur <strong><i>Chat</i></strong> masih dalam tahap pengembangan.
+  </x-alert>
+
   <div class="flex flex-col h-[70vh] bg-base-100 rounded-lg shadow-xl overflow-hidden" x-data="{
         isAtBottom: true,
         autoScrollTimeout: null,

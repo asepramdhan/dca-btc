@@ -17,7 +17,6 @@ class AdminTransactions extends Component
         ['key' => 'user.name', 'label' => 'Nama User'], // asumsi relasi user
         ['key' => 'package.name', 'label' => 'Nama Paket'], // asumsi relasi package
         ['key' => 'order_id', 'label' => 'ID Pesanan'],
-        ['key' => 'transaction_id', 'label' => 'ID Transaksi'],
         ['key' => 'payment_type', 'label' => 'Tipe Pembayaran'],
         ['key' => 'status', 'label' => 'Status'],
         ['key' => 'amount', 'label' => 'Jumlah'],

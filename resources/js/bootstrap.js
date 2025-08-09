@@ -1,4 +1,5 @@
 import axios from "axios";
+
 window.axios = axios;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -9,4 +10,4 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
  * allow your team to quickly build robust real-time web applications.
  */
 
-// import './echo';
+import "./echo";

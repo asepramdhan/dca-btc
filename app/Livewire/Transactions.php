@@ -8,9 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Midtrans\Config;
-use Midtrans\Snap;
-// Tidak perlu `use Midtrans\Transaction as MidtransTransaction;` jika hanya pakai Snap
 
 class Transactions extends Component
 {
@@ -18,8 +15,15 @@ class Transactions extends Component
 
     public $user;
     public $search = '';
-    // Durasi kedaluwarsa dalam jam (sesuai aturan Midtrans, default 24 jam)
-    // public int $expiryDurationInHours = 1;
+    public bool $paymentModal = false;
+    public bool $selectPaymentModal = false;
+    public int|null $pendingUpdatePayment = null;
+    public $currentOrderId = null; // Properti baru untuk menyimpan order_id yang sedang diproses
+    public $payment, $QRCode;
+    public $expiryTimestamp; // Mengubah dari timeExpired string ke timestamp Carbon
+    public $descriptionText; // <-- Properti baru untuk deskripsi dinamis
+    public $howPayment = 'Silahkan buka aplikasi (Gopay, ShopeePay, OVO atau Mobile Banking), kemudian scan QR Code untuk melakukan pembayaran.';
+
     public $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'bg-error/20 w-1'],
         ['key' => 'created_at', 'label' => 'Tanggal & Waktu'],
@@ -64,78 +68,61 @@ class Transactions extends Component
     public function lanjutBayar($id): void
     {
         $transaction = Transaction::findOrFail($id);
-        $snapToken = $transaction->snap_token;
-
-        // 1. Validasi status transaksi
-        if ($transaction->status !== 'pending') {
-            $this->miniToast('Transaksi ini sudah tidak bisa dilanjutkan.', 'warning');
+        $this->expiryTimestamp = $transaction->expiry_timestamp;
+        // 1. Validasi jika transaksi sudah expired ngambil dari expiryTimestamp
+        if ($this->expiryTimestamp < Carbon::now()->timestamp) {
+            $this->selectPaymentModal = false;
+            $this->miniToast('Transaksi sudah kedaluwarsa.', 'error', redirectTo: '/auth/transactions');
             return;
         }
-
-        // 2. Jika token belum ada, buat baru
-        if (!$snapToken) {
-            // Konfigurasi Midtrans
-            Config::$serverKey = config('midtrans.server_key');
-            Config::$isProduction = config('midtrans.is_production');
-            Config::$isSanitized = true;
-            Config::$is3ds = true;
-
-            try {
-                $params = [
-                    'transaction_details' => [
-                        'order_id' => $transaction->order_id,
-                        'gross_amount' => $transaction->amount,
-                    ],
-                    'customer_details' => [
-                        'first_name' => $this->user->name,
-                        'email' => $this->user->email,
-                    ],
-                ];
-
-                $snapToken = Snap::getSnapToken($params);
-
-                // Simpan token ke database agar tidak buat ulang
-                $transaction->update(['snap_token' => $snapToken]);
-            } catch (\Exception $e) {
-                $this->miniToast("Gagal membuat token pembayaran: {$e->getMessage()}", 'error');
-                return;
-            }
-        }
-
-        // 3. Kirim token ke frontend untuk membuka popup pembayaran
-        $this->dispatch('snap-token-received', token: $snapToken);
-    }
-
-    // ✅ Aktifkan kembali method ini untuk menangani callback dari Midtrans
-    public function handlePayment(array $result): void
-    {
-        $trx = Transaction::where('order_id', $result['order_id'])->first();
-
-        if (!$trx) {
-            $this->miniToast('Transaksi tidak ditemukan.', 'error');
-            return;
-        }
-
-        $trx->update([
-            'transaction_id' => $result['transaction_id'],
-            'payment_type' => $result['payment_type'],
-            'status' => $result['transaction_status'],
-        ]);
-
-        if ($trx->status === 'settlement' || $trx->status === 'capture') {
-            // Contoh: Logika setelah pembayaran sukses (misal: update status premium user)
-            $this->user->update([
-                'account_type' => 'premium',
-                'premium_until' => Carbon::now()->addDays($trx->package->duration),
-            ]);
-
-            $this->miniToast('Pembayaran berhasil!', 'success');
-            $this->dispatch('refresh-page'); // Opsional: kirim event untuk refresh halaman jika perlu
+        if ($transaction->package_id == 1 && $transaction->payment_type == 'qris') {
+            $this->selectPaymentModal = true;
+            $this->currentOrderId = $transaction->order_id;
+            $this->expiryTimestamp = $transaction->expiry_timestamp;
+            $this->QRCode = 'images/upgrade/normal/1bln.jpg';
+        } elseif ($transaction->package_id == 2 && $transaction->payment_type == 'qris') {
+            $this->selectPaymentModal = true;
+            $this->currentOrderId = $transaction->order_id;
+            $this->expiryTimestamp = $transaction->expiry_timestamp;
+            $this->QRCode = 'images/upgrade/normal/2bln.jpg';
+        } elseif ($transaction->package_id == 3 && $transaction->payment_type == 'qris') {
+            $this->selectPaymentModal = true;
+            $this->currentOrderId = $transaction->order_id;
+            $this->expiryTimestamp = $transaction->expiry_timestamp;
+            $this->QRCode = 'images/upgrade/normal/1thn.jpg';
         } else {
-            $this->miniToast('Lanjutkan pembayaran Anda.', 'info', timeout: 4000);
+            $this->selectPaymentModal = true;
+            $this->currentOrderId = $transaction->order_id;
+            $this->QRCode = 'images/upgrade/bank_transfer_instructions.jpg'; // Contoh gambar instruksi
+            // Set deskripsi untuk Transfer Bank
+            $this->descriptionText = 'Selesaikan pembayaran melalui transfer bank.';
+            $this->howPayment = 'Silahkan melakukan transfer sebesar Rp ' . number_format($transaction->amount, 0, ',', '.') . ' ke rekening yang dipilih diatas';
         }
     }
-
+    public function confirmPayment(): void
+    {
+        $this->selectPaymentModal = false;
+        $this->updateDataPremium();
+        $this->miniToast('Terimakasih telah melakukan pembayaran, silahkan tunggu beberapa saat untuk diaktifkan', timeout: 3000, redirectTo: '/auth/transactions');
+    }
+    public function cancelPayment(): void
+    {
+        $this->paymentModal = false;
+        $this->selectPaymentModal = false;
+    }
+    private function updateDataPremium(): void
+    {
+        $transactionId = uniqid('TRX-');
+        $data = Transaction::where('order_id', $this->currentOrderId)->first(); // Cari transaksi yang sudah ada
+        $data->update([ // Update statusnya
+            'transaction_id' => $transactionId,
+            'status' => 'process',
+        ]);
+        // $this->user->update([
+        //     'account_type' => 'premium',
+        //     'premium_until' => Carbon::now()->addDays($this->paketUser->duration),
+        // ]);
+    }
     public function render()
     {
         return view('livewire.transactions', [

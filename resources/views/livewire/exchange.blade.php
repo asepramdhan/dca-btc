@@ -8,8 +8,12 @@
     </x-slot:actions>
   </x-header>
 
+  <x-alert icon="lucide.alert-triangle" class="alert-info mb-4">
+    Apabila <strong><i>Fee</i></strong> tidak sesuai, Silahkan atur exchange kalian masing-masing.
+  </x-alert>
+
   <!-- Dana harian Table -->
-  <x-table :headers="$headers" :rows="$exchanges" striped with-pagination>
+  <x-table :headers=" $headers" :rows="$exchanges" striped with-pagination>
     <!-- Row Number -->
     @scope('cell_id', $exchange)
     <strong>{{ $loop->iteration }}</strong>

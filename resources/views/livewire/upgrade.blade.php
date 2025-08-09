@@ -1,53 +1,8 @@
-<div x-data="{
-    isPaying: false,
-    init() {
-        $wire.$on('snap-token-received', ({ token }) => {
-            if (!token) {
-                console.error('❌ Token tidak diterima');
-                return;
-            }
-
-            if (this.isPaying) {
-                console.log('⚠️ Masih dalam proses pembayaran...');
-                return;
-            }
-
-            this.isPaying = true;
-
-            snap.pay(token, {
-                onSuccess: (result) => {
-                    console.log('✅ Success', result);
-                    this.isPaying = false;
-
-                    // Kirim ke Livewire
-                    $wire.handlePayment(result);
-                },
-                onPending: (result) => {
-                    console.log('🕒 Pending', result);
-                    this.isPaying = false;
-
-                    // Kirim ke Livewire
-                    $wire.handlePayment(result);
-                  },
-                  onError: (result) => {
-                    console.error('❌ Error', result);
-                    this.isPaying = false;
-                    
-                    // Kirim ke Livewire
-                    $wire.handlePayment(result);
-                  },
-                  onClose: () => {
-                    console.log('❌ Popup ditutup oleh user');
-                    this.isPaying = false;
-                },
-            });
-        });
-    }
-}" x-init="init">
+<div>
 
   <div class="mb-6 w-full flex justify-center">
     <x-alert icon="lucide.alert-triangle" class="alert-warning lg:h-15">
-      <strong>Agar pembayaran berhasil (selain voucher), jangan tutup popup sebelum pembayaran selesai, jika terjadi kendala silahkan hubungi admin, melalui chat <a href="/auth/user/chat" target="_blank" class="text-blue-500">disini</a></strong>
+      <strong>Jika terjadi kendala silahkan hubungi admin, melalui chat <a href="/auth/user/chat" target="_blank" class="text-blue-500">disini</a></strong>
     </x-alert>
   </div>
 
@@ -76,7 +31,7 @@
 
       <div class="mt-4 flex justify-between items-center">
         <div>
-          <div class="text-lg font-bold text-gray-800">Rp{{ number_format($satuBulan->price, 0, ',', '.') }}</div>
+          <div class="text-lg font-bold text-gray-400">Rp{{ number_format($satuBulan->price, 0, ',', '.') }}</div>
           <div class="text-sm text-gray-500">per bulan</div>
         </div>
         <x-button label="Upgrade" class="btn-primary" wire:click="pay({{ $satuBulan->id }})" spinner />
@@ -88,7 +43,7 @@
     @elseif ($duaBulan->is_active)
     <!-- Langganan 2 Bulan -->
     <x-card shadow separator class="border-2 border-indigo-200 lg:transform lg:transition lg:duration-300 lg:ease-in-out 
-         lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:border-indigo-400 lg:hover:bg-indigo-50">
+         lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:border-indigo-400 lg:hover:bg-indigo-50 lg:hover:text-indigo-600">
       <x-slot:title>
         <div class="flex justify-between items-center w-full">
           {{ Str::title($duaBulan->name) }}
@@ -104,7 +59,7 @@
 
       <div class="mt-4 flex justify-between items-center">
         <div>
-          <div class="text-lg font-bold text-gray-800">Rp{{ number_format($duaBulan->price, 0, ',', '.') }}</div>
+          <div class="text-lg font-bold text-blue-400">Rp{{ number_format($duaBulan->price, 0, ',', '.') }}</div>
           <div class="text-sm text-gray-500">untuk 2 bulan</div>
         </div>
         <x-button label="Upgrade" class="btn-primary" wire:click="pay({{ $duaBulan->id }})" spinner />
@@ -117,7 +72,7 @@
     <!-- Langganan 1 Tahun -->
     <div class="group w-full">
       <x-card shadow separator class="w-full border-2 border-yellow-400 lg:transform lg:transition lg:duration-300 lg:ease-in-out 
-           lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-2xl lg:hover:bg-yellow-50 lg:hover:border-yellow-500">
+           lg:hover:scale-105 lg:hover:-translate-y-1 lg:hover:shadow-2xl lg:hover:bg-yellow-50 lg:hover:border-yellow-500 lg:hover:text-yellow-500">
         <x-slot:title>
           <div class="flex justify-between items-center w-full">
             {{ Str::title($satuTahun->name) }}
@@ -164,6 +119,14 @@
     </p>
     <x-button label="Kembali ke Dashboard" link="/auth/dashboard" class="btn-outline btn-sm" />
   </div>
+
+  <!-- Modal for Payment -->
+  <x-payment-modal wireModel="paymentModal" paymentModel="payment" title="Pilih Metode Pembayaran" description="Silahkan pilih metode pembayaran!" />
+
+  <!-- Modal for Select Payment -->
+  <x-select-payment-modal wireModel="selectPaymentModal" :expiryTimestamp="$expiryTimestamp" submitAction="confirmPayment" :image="$QRCode" :description="$descriptionText">
+    {{ $howPayment }}
+  </x-select-payment-modal>
 
   <!-- Modal for Voucher -->
   <x-voucher-modal wireModel="voucherModal" voucherModel="voucher" title="Masukan Voucher" description="Masukan voucher dan upgrade sekarang!" submitLabel="Upgrade" submitAction="confirmVoucher" />

@@ -1,0 +1,46 @@
+{{-- <div x-data="{
+    isPaying: false,
+    init() {
+        $wire.$on('snap-token-received', ({ token }) => {
+            if (!token) {
+                console.error('❌ Token tidak diterima');
+                return;
+            }
+
+            if (this.isPaying) {
+                console.log('⚠️ Masih dalam proses pembayaran...');
+                return;
+            }
+
+            this.isPaying = true;
+
+            snap.pay(token, {
+                onSuccess: (result) => {
+                    console.log('✅ Success', result);
+                    this.isPaying = false;
+
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                },
+                onPending: (result) => {
+                    console.log('🕒 Pending', result);
+                    this.isPaying = false;
+
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                  },
+                  onError: (result) => {
+                    console.error('❌ Error', result);
+                    this.isPaying = false;
+                    
+                    // Kirim ke Livewire
+                    $wire.handlePayment(result);
+                  },
+                  onClose: () => {
+                    console.log('❌ Popup ditutup oleh user');
+                    this.isPaying = false;
+                },
+            });
+        });
+    }
+}" x-init="init"> --}}

@@ -32,6 +32,7 @@ class Transaction extends Model
         return Attribute::make(
             get: fn() => match ($this->status) {
                 'pending' => 'Pending',
+                'process' => 'Processing',
                 'settlement', 'capture' => 'Success',
                 'deny', 'failure' => 'Failed',
                 'expire', 'cancel' => 'Expired', // ✅ Tambahkan 'expire' di sini

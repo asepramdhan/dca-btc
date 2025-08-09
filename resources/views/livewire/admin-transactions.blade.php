@@ -27,10 +27,6 @@
     {{ $transaction->order_id }}
     @endscope
 
-    @scope('cell_transaction_id', $transaction)
-    {{ $transaction->transaction_id ?? '-' }}
-    @endscope
-
     @scope('cell_payment_type', $transaction)
     {{ Str::upper($transaction->payment_type ?? '-') }}
     @endscope
@@ -39,6 +35,7 @@
     <x-badge :value="$transaction->status_label" :class="match($transaction->status_label) {
             'Success' => 'badge-success badge-soft',
             'Pending' => 'badge-warning badge-soft',
+            'Processing' => 'badge-info badge-soft',
             'Failed' => 'badge-destructive badge-soft',
             default => 'badge-muted badge-soft',
         }" />
@@ -46,6 +43,14 @@
 
     @scope('cell_amount', $transaction)
     Rp{{ number_format($transaction->amount, 0, ',', '.') }}
+    @endscope
+
+    @scope('actions', $transaction)
+    @if ($transaction->status === 'process')
+    <div class="gap-1 flex">
+      <x-button icon="lucide.check" class="btn-sm btn-success" wire:click="paymentCheck({{ $transaction->id }})" spinner />
+    </div>
+    @endif
     @endscope
 
     <!-- Jika data kosong -->

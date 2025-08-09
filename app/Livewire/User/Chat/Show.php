@@ -18,7 +18,7 @@ class Show extends Component
     public int $lastKnownMessageId = 0;
 
     // Properti untuk pagination
-    public int $perPage = 10;
+    public int $perPage = 5;
     public bool $hasMorePages = true;
 
     protected $paginationTheme = 'none';
