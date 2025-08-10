@@ -113,10 +113,6 @@ class Upgrade extends Component
             'transaction_id' => $transactionId,
             'status' => 'process',
         ]);
-        // $this->user->update([
-        //     'account_type' => 'premium',
-        //     'premium_until' => Carbon::now()->addDays($this->paketUser->duration),
-        // ]);
     }
     public function masukanVoucher(): void
     {

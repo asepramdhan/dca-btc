@@ -62,6 +62,24 @@
     </x-slot:empty>
   </x-table>
 
-  <!-- PIN Modal for Delete Confirmation -->
-  <x-pin-modal wireModel="pinModal" pinModel="pin" title="Konfirmasi Hapus" description="Masukkan PIN untuk menonaktifkan paket ini." submitLabel="Hapus" submitAction="confirmPin" />
+  <!-- Drawer for Payment Check -->
+  <x-payment-check-drawer wireModel="paymentCheckDrawer" paymentModel="payment" submitAction="confirmPayment" :title="'Cek Pembayaran : ' . Str::title($userName)" :item="$transaction">
+    <div class="font-semibold">Tanggal</div>
+    <div>: {{ $tanggal }}</div>
+
+    <div class="font-semibold">ID Transaksi</div>
+    <div>: {{ $idTransaksi }}</div>
+
+    <div class="font-semibold">Nominal</div>
+    <div>: {{ $nominal }}</div>
+
+    <div class="font-semibold">Tipe Pembayaran</div>
+    <div>: {{ Str::upper($tipePembayaran) }}</div>
+
+    <div class="font-semibold">Status</div>
+    <div>: {{ Str::title($status) }}</div>
+
+    <div class="font-semibold">Keterangan</div>
+    <div>: {{ Str::title($keterangan) }}</div>
+  </x-payment-check-drawer>
 </div>

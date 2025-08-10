@@ -80,7 +80,7 @@
 
       <!-- ⚙️ Pengaturan Sistem -->
       <x-menu-sub title="Pengaturan" icon="lucide.sliders-horizontal">
-        <x-menu-item title="Testing Chat" icon="lucide.message-circle" :link="route('admin-testing-chat')" />
+        {{-- <x-menu-item title="Testing Chat" icon="lucide.message-circle" :link="route('admin-testing-chat')" /> --}}
         <x-menu-item title="Konfigurasi Umum" icon="lucide.settings" link="/admin/settings" />
       </x-menu-sub>
 
