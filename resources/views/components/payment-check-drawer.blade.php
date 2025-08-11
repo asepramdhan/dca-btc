@@ -6,7 +6,9 @@
   'description' => 'Silahkan pilih metode pembayaran!',
   'submitLabel' => 'Konfirmasi',
   'cancelLabel' => 'Batal',
+  'rejectLabel' => 'Tolak',
   'submitAction' => 'confirmPayment',
+  'cancelAction' => 'rejectPayment',
   'item' => 'transaction',
   ])
 
@@ -20,6 +22,7 @@
       </x-list-item>
     </div>
     <x-button label="Close" @click="$wire.{{ $wireModel }} = false" />
+    <x-button label="{{ $rejectLabel }}" class="btn-error" wire:click="{{ $cancelAction }}" spinner="{{ $cancelAction }}" />
     <x-button label="{{ $submitLabel }}" class="btn-primary" wire:click="{{ $submitAction }}" spinner="{{ $submitAction }}" />
   </x-drawer>
 </div>

@@ -57,6 +57,15 @@ class AdminTransactions extends Component
             'premium_until' => Carbon::now()->addDays((int) $transaction->package->duration),
         ]);
     }
+    public function rejectPayment(): void
+    {
+        $this->paymentCheckDrawer = false;
+        $transaction = Transaction::findOrFail($this->transaction['id']);
+        $transaction->update([
+            'status' => 'deny',
+        ]);
+        $this->miniToast('Pembayaran ditolak', redirectTo: '/admin/transactions');
+    }
     public function render()
     {
         return view('livewire.admin-transactions', [

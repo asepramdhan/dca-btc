@@ -32,7 +32,7 @@
             'Success' => 'badge-success badge-soft',
             'Pending' => 'badge-warning badge-soft',
             'Processing' => 'badge-info badge-soft',
-            'Failed' => 'badge-destructive badge-soft',
+            'Failed' => 'badge-error badge-soft',
             'Expired' => 'badge-muted badge-soft', // Ini akan digunakan untuk status 'expire'
             default => 'badge-muted badge-soft',
         }" />

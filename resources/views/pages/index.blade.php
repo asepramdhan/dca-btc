@@ -87,8 +87,12 @@ name('home');
         </p>
         <p>&copy; 2022-{{ now()->year }} DCA-BTC. Semua hak dilindungi.</p>
         <div class="flex justify-center space-x-4 mt-2">
-          <a href="###" target="_blank" class="hover:text-primary">Instagram</a>
-          <a href="###" class="hover:text-primary">Kontak</a>
+          <a href="https://www.tiktok.com/@dca_bitcoin" target="_blank" class="hover:text-primary">Tiktok</a>
+          @admin
+          <a href="/admin/chat" target="_blank" class="hover:text-primary">Kontak</a>
+          @else
+          <a href="/auth/user/chat" target="_blank" class="hover:text-primary">Kontak</a>
+          @endadmin
           <a href="###" class="hover:text-primary">Privasi</a>
         </div>
       </div>

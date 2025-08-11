@@ -36,7 +36,7 @@
             'Success' => 'badge-success badge-soft',
             'Pending' => 'badge-warning badge-soft',
             'Processing' => 'badge-info badge-soft',
-            'Failed' => 'badge-destructive badge-soft',
+            'Failed' => 'badge-error badge-soft',
             default => 'badge-muted badge-soft',
         }" />
     @endscope
@@ -63,7 +63,7 @@
   </x-table>
 
   <!-- Drawer for Payment Check -->
-  <x-payment-check-drawer wireModel="paymentCheckDrawer" paymentModel="payment" submitAction="confirmPayment" :title="'Cek Pembayaran : ' . Str::title($userName)" :item="$transaction">
+  <x-payment-check-drawer wireModel="paymentCheckDrawer" paymentModel="payment" submitAction="confirmPayment" rejectAction="rejectPayment" :title="'Cek Pembayaran : ' . Str::title($userName)" :item="$transaction">
     <div class="font-semibold">Tanggal</div>
     <div>: {{ $tanggal }}</div>
 
