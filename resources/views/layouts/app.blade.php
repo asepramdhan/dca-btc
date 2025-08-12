@@ -62,13 +62,13 @@
 
     <!-- This is a sidebar that works also as a drawer on small screens -->
     <!-- Notice the `main-drawer` reference here -->
-    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*') || request()->is('admin/chat') || request()->is('admin/chat/*') || request()->is('auth/user/chat'))
+    @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*') || request()->is('admin/chat') || request()->is('admin/chat/*') || request()->is('auth/user/chat') || request()->is('disclaimer') || request()->is('privacy-policy'))
     <x-sidebar />
     @endunless
 
     <!-- The `$slot` goes here -->
     <x-slot:content>
-      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*') || request()->is('admin/chat') || request()->is('admin/chat/*') || request()->is('auth/user/chat'))
+      @unless(request()->is('/') || request()->is('guest/register') || request()->is('guest/login') || request()->is('auth/dashboard') || request()->is('auth/upgrade') || request()->is('guest/lupa-password') || request()->is('reset-password/*') || request()->is('admin/chat') || request()->is('admin/chat/*') || request()->is('auth/user/chat') || request()->is('disclaimer') || request()->is('privacy-policy'))
       <div class="bg-base-200 mb-4">
         <x-app-breadcrumbs :items="breadcrumbs()" />
       </div>

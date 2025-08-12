@@ -8,6 +8,9 @@ use App\Traits\MiniToast;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail; // <-- Tambahkan ini
+use App\Mail\AdminPaymentNotificationMail; // <-- Tambahkan ini
+use Illuminate\Support\Facades\Config; // <-- Tambahkan ini untuk mengakses config
 
 class Upgrade extends Component
 {
@@ -81,8 +84,28 @@ class Upgrade extends Component
     public function confirmPayment(): void
     {
         $this->selectPaymentModal = false;
-        $this->updateDataPremium();
-        $this->miniToast('Terimakasih telah melakukan pembayaran, silahkan tunggu beberapa saat untuk diaktifkan', timeout: 3000, redirectTo: '/auth/transactions');
+        $this->updateDataPremium(); // Ini akan memperbarui status transaksi menjadi 'process'
+
+        // Ambil data transaksi yang baru saja di-update atau dibuat
+        $transaction = Transaction::where('order_id', $this->currentOrderId)->first();
+        // Kirim email notifikasi ke administrator jika transaksi ditemukan
+        if ($transaction) {
+            try {
+                // Mengambil alamat email admin dari .env
+                $adminEmail = Config::get('app.admin_email', env('ADMIN_EMAIL')); // Menggunakan Config::get untuk lebih aman
+
+                if ($adminEmail) {
+                    Mail::to($adminEmail)->send(new AdminPaymentNotificationMail($transaction));
+                } else {
+                    $this->miniToast('Mohon ditunggu admin sedang tidak online', 'error', timeout: 3000, redirectTo: '/auth/transactions');
+                }
+            } catch (\Exception $e) {
+                $this->miniToast('Maaf sedang terjadi gangguan, silahkan hubungi admin melalui chat', 'error', timeout: 3000, redirectTo: '/auth/transactions');
+            }
+        }
+
+        // Tampilkan pesan ke pengguna
+        $this->miniToast('Terimakasih telah melakukan pembayaran, Kami akan segera proses', timeout: 3000, redirectTo: '/auth/transactions');
     }
     public function cancelPayment(): void
     {

@@ -22,7 +22,7 @@
     <x-button label="Daftar" icon="lucide.user-pen" link="/guest/register" class="btn-ghost btn-sm" responsive />
     <x-button label="Masuk" icon="lucide.user-circle-2" link="/guest/login" class="btn-ghost btn-sm" responsive />
     @else
-    @unless(request()->is('/'))
+    @unless(request()->is('/') || request()->is('disclaimer') || request()->is('privacy-policy'))
     <livewire:btc-price />
     <div>
       @admin
@@ -42,7 +42,7 @@
       </x-dropdown>
     </div>
     @endunless
-    @if(request()->is('/'))
+    @if(request()->is('/') || request()->is('disclaimer') || request()->is('privacy-policy'))
     <x-dropdown label="Hai {{ Str::title(auth()->user()->name) }}" class="btn-ghost btn-sm hover:bg-transparent hover:shadow-none hover:border-transparent" right>
       <x-menu-item title="Dashboard" icon="lucide.layout-dashboard" class="text-secondary" icon-classes="text-secondary" link="/auth/dashboard" />
       <x-menu-item title="Pengaturan" icon="lucide.settings-2" link="/auth/profil" />

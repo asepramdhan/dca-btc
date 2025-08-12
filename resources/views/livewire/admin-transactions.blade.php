@@ -48,7 +48,7 @@
     @scope('actions', $transaction)
     @if ($transaction->status === 'process')
     <div class="gap-1 flex">
-      <x-button icon="lucide.check" class="btn-sm btn-success" wire:click="paymentCheck({{ $transaction->id }})" spinner />
+      <x-button icon="lucide.check" class="btn-sm btn-accent btn-outline" wire:click="paymentCheck({{ $transaction->id }})" spinner />
     </div>
     @endif
     @endscope

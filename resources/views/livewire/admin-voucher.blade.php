@@ -56,5 +56,5 @@
   </x-table>
 
   <!-- PIN Modal for Delete Confirmation -->
-  <x-pin-modal wireModel="pinModal" pinModel="pin" title="Konfirmasi Hapus" description="Masukkan PIN untuk menonaktifkan paket ini." submitLabel="Hapus" submitAction="confirmPin" />
+  <x-pin-modal wireModel="pinModal" pinModel="pin" title="Konfirmasi Hapus" description="Masukkan PIN untuk menghapus voucher ini." submitLabel="Hapus" submitAction="confirmPin" />
 </div>

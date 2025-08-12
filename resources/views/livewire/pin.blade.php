@@ -8,7 +8,7 @@
 
     <!-- PIN Column -->
     @scope('cell_pin', $pin)
-    <x-badge :value="$pin->pin ? '****' : 'Belum Diatur'" :class="$pin->pin ? 'badge-success badge-sm' : 'badge-error badge-sm'" />
+    <x-badge :value="$pin->pin ? '****' : 'Belum diatur'" :class="$pin->pin ? 'badge-success badge-sm' : 'badge-error badge-sm'" />
     @endscope
 
     <!-- Updated At Column -->
