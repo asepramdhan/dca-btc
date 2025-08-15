@@ -1,17 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
-    isDark: window.matchMedia('(prefers-color-scheme: dark)').matches
-  }" x-init="
-    $watch('isDark', value => {
-      document.documentElement.classList.toggle('dark', value);
-    });
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      isDark = e.matches;
-    });
-
-    document.documentElement.classList.toggle('dark', isDark);
-  ">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -20,58 +8,180 @@
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Menggunakan font Inter sebagai default */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0F172A;
+      /* slate-900 */
+      color: #F1F5F9;
+      /* slate-100 */
+    }
+
+    /* Efek gradien pada hero section */
+    .hero-gradient {
+      background: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(56, 189, 248, 0.3), rgba(255, 255, 255, 0));
+    }
+
+    .feature-card {
+      background-color: #1E293B;
+      /* slate-800 */
+      border: 1px solid #334155;
+      /* slate-700 */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+      background-color: #1E293B;
+      /* slate-800 */
+      border: 1px solid #334155;
+      /* slate-700 */
+    }
+
+    .step-card {
+      background-color: #1E293B;
+      /* slate-800 */
+      border: 1px solid #334155;
+      /* slate-700 */
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-number {
+      font-size: 5rem;
+      font-weight: 800;
+      color: #334155;
+      /* slate-700 */
+      line-height: 1;
+    }
+
+    .form-input {
+      background-color: #1E293B;
+      /* slate-800 */
+      border: 1px solid #334155;
+      /* slate-700 */
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      color: white;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #0EA5E9;
+      /* sky-500 */
+      box-shadow: 0 0 0 2px #0EA5E930;
+    }
+
+    .blog-card {
+      background-color: #1E293B;
+      /* slate-800 */
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Styling for article content */
+    .prose-custom {
+      color: #cbd5e1;
+      /* slate-300 */
+    }
+
+    .prose-custom h2,
+    .prose-custom h3 {
+      color: #f1f5f9;
+      /* slate-100 */
+      margin-top: 2em;
+      margin-bottom: 1em;
+    }
+
+    .prose-custom p {
+      line-height: 1.75;
+      margin-bottom: 1.5em;
+    }
+
+    .prose-custom a {
+      color: #38bdf8;
+      /* sky-400 */
+      text-decoration: none;
+    }
+
+    .prose-custom a:hover {
+      text-decoration: underline;
+    }
+
+    .prose-custom blockquote {
+      border-left-color: #38bdf8;
+      /* sky-400 */
+      color: #94a3b8;
+      /* slate-400 */
+      margin-bottom: 1.5em;
+    }
+
+    .prose-custom strong {
+      color: #7dd3fc;
+      /* sky-300 */
+    }
+
+    .prose-custom code {
+      background-color: #334155;
+      /* slate-700 */
+      color: #e2e8f0;
+      /* slate-200 */
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+
+    .prose-custom ul {
+      margin-bottom: 1.5em;
+      list-style-position: outside;
+      padding-left: 1.25rem;
+    }
+
+    .prose-custom li {
+      padding-left: 0.5rem;
+      margin-bottom: 0.75em;
+    }
+
+    /* Mengatasi display: none dari AlpineJS agar transisi bekerja */
+    [x-cloak] {
+      display: none !important;
+    }
+
+  </style>
+
   <!-- Currency -->
   <script type="text/javascript" src="{{ asset('js/currency.js') }}"></script>
 </head>
-<body class="min-h-screen font-sans antialiased bg-base-200">
+<body x-data="{ isMenuOpen: false }">
 
-  {{-- The navbar with `sticky` and `full-width` --}}
-  <x-nav class="bg-base-200" sticky full-width>
-
-    <x-slot:brand>
-      {{-- Brand --}}
-      <a href="/update" wire:navigate class="flex items-center">
-        <span class="font-bold text-3xl me-3 bg-gradient-to-r from-purple-500 to-pink-300 bg-clip-text text-transparent">PortoKu</span>
-      </a>
-    </x-slot:brand>
-
-    {{-- Right side actions --}}
-    <x-slot:actions class="space-x-2">
-      <div class="hidden lg:flex space-x-2">
-        <x-button label="Blog" class="btn-ghost" link="###" />
-        <x-button label="Pricing" class="btn-ghost" link="###" />
-        <x-button label="Contact" class="btn-ghost" link="###" />
-        <x-button label="About" class="btn-ghost" link="###" />
-      </div>
-
-      <div class="text-gray-300 hidden lg:block">|</div>
-
-      <x-button class="btn-ghost btn-circle btn-sm">
-        <x-swap id="rotate" class="swap-rotate" />
-      </x-button>
-
-      <div class="text-gray-300">|</div>
-
-      <x-dropdown>
-        <x-slot:trigger>
-          <x-button icon="o-bell" class="btn-ghost btn-circle btn-sm indicator">
-            <x-badge value="7" class="badge-secondary badge-sm indicator-item" />
-          </x-button>
-        </x-slot:trigger>
-
-        <x-menu-item title="Archive" />
-        <x-menu-item title="Move" />
-      </x-dropdown>
-
-      <x-dropdown label="Hello" class="btn-warning btn-sm" right>
-        <x-menu-item title="It should align correctly on right side" />
-        <x-menu-item title="Yes!" />
-      </x-dropdown>
-    </x-slot:actions>
-  </x-nav>
+  <!-- ===== Header / Navigation Bar ===== -->
+  <x-update.home-navbar />
 
   <!-- The main content with `full-width` -->
-  <x-main with-nav full-width>
+  <x-main>
     <!-- This is a sidebar that works also as a drawer on small screens -->
 
     <!-- The `$slot` goes here -->
@@ -79,41 +189,9 @@
       {{ $slot }}
     </x-slot:content>
 
-    <x-slot:footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
-      <aside>
-        <img src="{{ asset('images/logo2.png') }}" alt="portoku.id" class="h-10">
-        <p>
-          PortoKu Industries Ltd.
-          <br />
-          Providing reliable tech since 2022
-        </p>
-      </aside>
-      <nav>
-        <h6 class="footer-title">Services</h6>
-        <a class="link link-hover">Branding</a>
-        <a class="link link-hover">Design</a>
-        <a class="link link-hover">Marketing</a>
-        <a class="link link-hover">Advertisement</a>
-      </nav>
-      <nav>
-        <h6 class="footer-title">Company</h6>
-        <a class="link link-hover">About us</a>
-        <a class="link link-hover">Contact</a>
-        <a class="link link-hover">Jobs</a>
-        <a class="link link-hover">Press kit</a>
-      </nav>
-      <nav>
-        <h6 class="footer-title">Legal</h6>
-        <a class="link link-hover">Terms of use</a>
-        <a class="link link-hover">Privacy policy</a>
-        <a class="link link-hover">Cookie policy</a>
-      </nav>
-    </x-slot:footer>
   </x-main>
 
-  <!-- TOAST area -->
-  <x-toast />
-  <!-- Theme toggle -->
-  <x-theme-toggle class="hidden" />
+  <!-- ===== Footer ===== -->
+  <x-update.home-footer />
 </body>
 </html>
