@@ -13,12 +13,18 @@
           Alat bantu modern untuk mencatat, menganalisis, dan mengoptimalkan aset digital serta keuangan Anda di satu tempat yang aman.
         </p>
         <div class="flex justify-center items-center gap-4">
+          @guest
           <a href="/update/register" wire:navigate class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">
             Mulai Sekarang!
           </a>
           <a href="/update/features" wire:navigate class="hidden md:block bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">
             Lihat Fitur
           </a>
+          @else
+          <a href="/update/dashboard" wire:navigate class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">
+            Periksa Portofolio
+          </a>
+          @endguest
         </div>
       </div>
     </div>

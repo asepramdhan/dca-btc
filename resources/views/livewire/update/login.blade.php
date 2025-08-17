@@ -1,12 +1,28 @@
 <?php
 
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Auth;
 
 new class extends Component {
-    public function login(): void
-    {
-        $this->redirect('/update/dashboard');
+  public $email = '';
+  public $password = '';
+  public $remember = false;
+
+  protected $rules = [
+    'email' => 'required|email',
+    'password' => 'required',
+  ];
+
+  public function login(): void
+  {
+    $credentials = $this->validate();
+    if (Auth::attempt($credentials, $this->remember)) {
+      session()->regenerate();
+
+      $this->redirect('/update/dashboard');
     }
+    $this->addError('email', 'Email atau kata sandi yang Anda masukkan salah.');
+  }
 }; ?>
 
 <div>
@@ -20,6 +36,11 @@ new class extends Component {
           Atau <a href="/update/register" wire:navigate class="font-medium text-sky-400 hover:text-sky-500">buat akun baru</a> jika Anda belum terdaftar.
         </p>
       </div>
+      @if (session()->has('error'))
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+      </div>
+      @endif
       <form class="mt-8 space-y-6" wire:submit.prevent="login">
         <div class="rounded-md shadow-sm -space-y-px">
           <div class="mb-6">
@@ -34,7 +55,7 @@ new class extends Component {
 
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-600 bg-slate-700 rounded">
+            <input id="remember-me" wire:model="remember" type="checkbox" class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-slate-600 bg-slate-700 rounded">
             <label for="remember-me" class="ml-2 block text-sm text-slate-300">
               Ingat saya
             </label>

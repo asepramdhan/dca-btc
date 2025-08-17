@@ -9,11 +9,19 @@
       <a href="/update/features" wire:navigate class="{{ request()->is('update/features') ? 'text-sky-400 font-semibold' : 'text-slate-300 hover:text-sky-400 transition-colors' }}">Fitur</a>
       <a href="/update/workflow" wire:navigate class="{{ request()->is('update/workflow') ? 'text-sky-400 font-semibold' : 'text-slate-300 hover:text-sky-400 transition-colors' }}">Cara Kerja</a>
       <a href="/update/blog" wire:navigate class="{{ request()->is('update/blog*') ? 'text-sky-400 font-semibold' : 'text-slate-300 hover:text-sky-400 transition-colors' }}">Blog</a>
+      @guest
       <a href="/update/login" wire:navigate class="{{ request()->is('update/login') ? 'text-sky-400 font-semibold' : 'text-slate-300 hover:text-sky-400 transition-colors' }}">Login</a>
+      @endguest
     </div>
+    @guest
     <a href="/update/register" wire:navigate class="hidden md:block bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">
       Daftar Gratis
     </a>
+    @else
+    <a href="/update/dashboard" wire:navigate class="hidden md:block bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">
+      Portofolio
+    </a>
+    @endguest
 
     <!-- Mobile Menu Button -->
     <button @click="isMenuOpen = !isMenuOpen" class="md:hidden text-white z-50 cursor-pointer">
@@ -28,10 +36,16 @@
       <a href="/update/features" wire:navigate @click="isMenuOpen = false" class="block {{ request()->is('update/features') ? 'text-sky-400 rounded-md px-3 py-2 font-semibold' : 'text-slate-300 hover:text-sky-400 rounded-md px-3 py-2 font-medium' }}">Fitur</a>
       <a href="/update/workflow" wire:navigate @click="isMenuOpen = false" class="block {{ request()->is('update/workflow') ? 'text-sky-400 rounded-md px-3 py-2 font-semibold' : 'text-slate-300 hover:text-sky-400 rounded-md px-3 py-2 font-medium' }}">Cara Kerja</a>
       <a href="/update/blog" wire:navigate @click="isMenuOpen = false" class="block {{ request()->is('update/blog*') ? 'text-sky-400 rounded-md px-3 py-2 font-semibold' : 'text-slate-300 hover:text-sky-400 rounded-md px-3 py-2 font-medium' }}">Blog</a>
+      @guest
       <a href="/update/login" wire:navigate @click="isMenuOpen = false" class="block {{ request()->is('update/login') ? 'text-sky-400 rounded-md px-3 py-2 font-semibold' : 'text-slate-300 hover:text-sky-400 rounded-md px-3 py-2 font-medium' }}">Login</a>
       <a href="/update/register" wire:navigate class="block bg-sky-500 hover:bg-sky-600 text-white font-semibold w-full text-center mt-4 px-5 py-2 rounded-lg transition-colors">
         Daftar Gratis
       </a>
+      @else
+      <a href="/update/dashboard" wire:navigate class="block bg-sky-500 hover:bg-sky-600 text-white font-semibold w-full text-center mt-4 px-5 py-2 rounded-lg transition-colors">
+        Portofolio
+      </a>
+      @endguest
     </div>
   </div>
 </header>

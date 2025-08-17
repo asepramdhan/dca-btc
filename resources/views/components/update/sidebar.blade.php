@@ -30,9 +30,6 @@
     </a>
   </nav>
   <div class="mt-auto">
-    <a href="/update/login" class="sidebar-link">
-      <x-icon name="lucide.log-out" class="mr-3" />
-      Keluar
-    </a>
+    <livewire:update.logout />
   </div>
 </aside>

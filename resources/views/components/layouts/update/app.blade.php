@@ -142,6 +142,18 @@
       box-shadow: 0 0 0 2px #0EA5E930;
     }
 
+    .form-input.input-error {
+      border-color: #ef4444;
+      /* red-500 */
+    }
+
+    .form-input.input-error:focus {
+      border-color: #ef4444;
+      /* red-500 */
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+      /* Optional: Ganti ring jadi merah */
+    }
+
     [x-cloak] {
       display: none !important;
     }
